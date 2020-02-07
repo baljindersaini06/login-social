@@ -1,0 +1,109 @@
+{% extends 'myapp/layout4.html' %}
+{% load static %}
+
+{% load countries %}
+{% get_countries as countries %}
+
+
+{% block content %}
+
+
+<h3 class="page-title">
+   Add Location<!--<small>user account page sample</small> -->
+   </h3>
+   <div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="{% url 'dashboard' %}">Home</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+                <a href="{% url 'company_view' %}">{{ compdetail.company_name }}</a>
+                <i class="fa fa-angle-right"></i>
+            </li> 
+        <!-- <li>
+            <a href="#">Pages</a>
+            <i class="fa fa-angle-right"></i>
+        </li> -->
+        <li>
+            <a href="">Add Location</a>
+        </li>
+    </ul>
+</div>
+
+
+<div class="profile-content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet light">
+                    <div class="portlet-title tabbable-line">
+                        <div class="caption caption-md">
+                            <i class="icon-globe theme-font hide"></i>
+                            <span class="caption-subject font-blue-madison bold uppercase" align="center">Add Location</span>
+                        </div><br><br><br>
+<form action="" method="POST" id="login-form" name="address">
+    {% csrf_token %}
+    
+    <div class="form-group">
+         </div> 
+    <div class="form-group">
+        <label class="control-label">location_name</label>
+        <input type="text" name="location_name" id="location_name" class="form-control"/>
+    </div>
+    <div class="form-group">
+            <label class="control-label">location_address</label>
+            <input type="text" name="location_address" id="location_address" class="form-control"/>
+        </div>
+        <div class="form-group">
+            <label class="control-label">country</label>
+            <select class="form-control" id="country" name="country">
+                <option  name="country" value=""></option>
+                {% for country in countries %}
+                    <option  name="country" value="{{ country.id }}">{{ country.name }}</option>
+                {% endfor %}
+                </select>
+    
+            
+        </div>
+       
+    <div class="form-group">
+        <label class="control-label">location_city</label>
+        <input type="text" name="location_city" id="location_city" class="form-control"/>
+    </div>
+    <div class="form-group">
+            <label class="control-label">location_postal_code</label>
+            <input type="text" name="location_postal_code" id="location_postal_code" class="form-control"/>
+        </div>
+    
+    <div class="form-group">
+        <label class="control-label">location_bussiness_hours</label>
+        <input type="text" name="location_bussiness_hours" id="location_bussiness_hours" class="form-control"/>
+    </div>
+    {% if headquater %}
+    <div class="form-group" id="show" name="show" style="display:none;">
+            <label class="control-label">Is a headquater</label>
+            <input type="hidden" name="is_headquater" id="is_headquater" class="form-control"/>
+        </div>
+    
+    {% else %}
+    <div class="form-group">
+            <label class="control-label">Is a headquater</label>
+            <input type="checkbox" name="is_headquater" id="is_headquater" class="form-control"/>
+        </div>
+    {% endif %}
+
+    <div class="form-group">
+        <label class="control-label">Is off hours accessible</label>
+        <input type="checkbox" name="is_off_hours_accessible" id="is_off_hours_accessible" class="form-control"/>
+    </div>
+    
+    <div class="margin-top-10">
+        <input class="btn green-haze" type="submit" name="btnform2" />
+        <a href="javascript:;" class="btn default">
+        Cancel </a>
+    </div>
+</form>
+</div>
+
+{% endblock %}

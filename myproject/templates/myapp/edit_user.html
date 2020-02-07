@@ -1,0 +1,81 @@
+{% extends 'myapp/layout3.html' %}
+{% load static %}
+{% block content %}
+
+<h3 class="page-title">
+    User Registration <!--<small>user account page sample</small> -->
+   </h3>
+   <div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="{% url 'dashboard' %}">Home</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <!-- <li>
+            <a href="#">Pages</a>
+            <i class="fa fa-angle-right"></i>
+        </li> -->
+        <li>
+            <a href="">User Registration</a>
+        </li>
+    </ul>
+    </div>
+<div class="profile-content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet light">
+                    <div class="portlet-title tabbable-line">
+                        <div class="caption caption-md">
+                            <i class="icon-globe theme-font hide"></i>
+                            <span class="caption-subject font-blue-madison bold uppercase" align="center">User Registration</span>
+                        </div><br><br><br>
+<form action="" method="POST" id="form8" name="user">
+    {% csrf_token %}
+    
+    <div class="form-group">
+        <label class="control-label">First Name</label>
+        <input type="text" name="first_name" id="first_name" value="{{ user.first_name }}" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label class="control-label">Last Name</label>
+        <input type="text" name="last_name" id="last_name" value="{{ user.last_name }}"  class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label class="control-label">Username</label>
+        <input type="text" name="username" id="username" value="{{ user.username }}"  class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label class="control-label">Email</label>
+        <input type="email" name="email" id="email" value="{{ user.email }}"  class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label class="control-label">Phone Number</label>
+        <input type="text" name="phone_no" id="phone_no" value="{{ user.phone_no }}" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label class="control-label">Role</label>
+        <select class="form-control" id="role" name="role">
+          
+            {% for b in a %}
+            <option value="{{ b.id }}" selected>{{ b.name }}</option>
+            {% endfor %}
+            {% for g in grps %}
+            <option value="{{ g.id }}">{{ g.name }}</option>
+            {% endfor %}
+        </select>
+     </div> 
+    <div class="margin-top-10">
+        
+        <input class="btn green-haze" type="submit" name="btnform2" />
+        <a href="javascript:;" class="btn default">
+        Cancel </a>
+    </div>
+</form>
+</div>
+
+
+
+
+
+{% endblock %}

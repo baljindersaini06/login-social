@@ -1,0 +1,98 @@
+{% extends 'myapp/layout4.html' %}
+{% load static %}
+{% block content %}
+
+
+<h3 class="page-title">
+    Update Location<!--<small>user account page sample</small> -->
+   </h3>
+   <div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="{% url 'dashboard' %}">Home</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+                <a href="{% url 'company_view' %}">{{ compdetail.company_name }}</a>
+                <i class="fa fa-angle-right"></i>
+            </li> 
+        <!-- <li>
+            <a href="#">Pages</a>
+            <i class="fa fa-angle-right"></i>
+        </li> -->
+        <li>
+            <a href="">Update Location</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+                <a href="">{{ locupdate.location_name }}</a>
+              
+            </li>
+        
+    </ul>
+</div>
+
+
+<div class="profile-content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet light">
+                    <div class="portlet-title tabbable-line">
+                        <div class="caption caption-md">
+                            <i class="icon-globe theme-font hide"></i>
+                            <span class="caption-subject font-blue-madison bold uppercase" align="center">Update Location</span>
+                        </div><br><br><br>
+<form action="" method="POST" id="login-form">
+    {% csrf_token %}
+    
+    <div class="form-group">
+            <label class="control-label">Location Name</label>
+            <input type="text" name="location_name" id="location_name" value="{{ locupdate.location_name }}"  class="form-control"/>
+        </div>
+    <div class="form-group">
+        <label class="control-label">Location Address</label>
+        <input type="text" name="location_address" id="location_address" value="{{ locupdate.location_address }}"  class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label class="control-label">country</label>
+        <select class="form-control" id="country" name="country"  >
+            <option  name="country" value="{{ locupdate.country.id }}" selected>{{ locupdate.country.name }}</option>
+            <option  name="country" value=""></option>
+
+            {% for country in countries %}
+                <option  name="country" value="{{ country.id }}">{{ country.name }}</option>
+            {% endfor %}
+            </select>
+    
+    </div>
+    <div class="form-group">
+            <label class="control-label">Location City</label>
+            <input type="text" name="location_city" id="location_city"  value="{{ locupdate.location_city }}"  class="form-control"/>
+        </div>
+    <div class="form-group">
+        <label class="control-label">Location Postal Code</label>
+        <input type="number" name="location_postal_code" id="location_postal_code"  value="{{ locupdate.location_postal_code }}"  class="form-control"/>
+    </div>
+    
+    <div class="form-group">
+        <label class="control-label">Location Business Hours</label>
+        <input type="number" name="location_bussiness_hours" id="location_bussiness_hours"  value="{{ locupdate.location_bussiness_hours }}"  class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label class="control-label">Is A Headquater</label>
+        <input type="text" name="is_headquater" id="is_headquater"  value="{{ locupdate.is_headquater }}"  class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label class="control-label">Is Off Hours Accessible</label>
+        <input type="text" name="is_off_hours_accessible" id="is_off_hours_accessible"  value="{{ locupdate.is_off_hours_accessible }}"  class="form-control"/>
+    </div>
+    <div class="margin-top-10">
+        <input class="btn green-haze" type="submit" name="btnform2" />
+        <a href="" class="btn default">
+        Cancel </a>
+    </div>
+</form>
+</div>
+
+{% endblock %}

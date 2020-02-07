@@ -1,0 +1,135 @@
+{% extends 'myapp/layout3.html' %}
+{% load static %}
+{% block content %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+
+
+<style>
+.add-button{
+  float:right;
+  background-color: #36918b; /* Green */
+  border: none;
+  color: white;
+  padding:9px 6px 9px 7px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px -3px;
+  cursor: pointer;
+  border-radius: 35px!important;
+  text-decoration: none;
+
+}
+
+.btn:hover {
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+  -o-transform: scale(1.1);
+ }
+.btn-xs {
+  padding: 5px 9px;
+  border-radius:5px!important;
+}
+</style>
+<div>
+<h3 class="page-title">
+    Package List <!--<small>user account page sample</small> -->
+
+    <button class="add-button" type="button"><a style="text-decoration:none;color:white;" href="{% url 'addpackage' %}">Add Package</a></button> 
+
+ </h3></div><br>
+ <div class="page-bar">
+  <ul class="page-breadcrumb">
+      <li>
+          <i class="fa fa-home"></i>
+          <a href="{% url 'dashboard' %}">Home</a>
+          <i class="fa fa-angle-right"></i>
+      </li>
+      <!-- <li>
+          <a href="#">Pages</a>
+          <i class="fa fa-angle-right"></i>
+      </li> -->
+      <!-- <li>
+          <a href="{% url 'company_view' %}">{{ compdetail.company_name }}</a>
+          <i class="fa fa-angle-right"></i>
+      </li> -->
+      <li>
+          <a href="">Package List</a>
+      </li>
+  </ul>
+</div>
+
+
+<table id="tes_table_com_pack" class="display table table-striped table-bordered" border="1" cellspacing="0" width="100%">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>name</th>
+        <th>By</th>
+        <th>Date</th>
+        <th>Edit/Delete</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+      {% for l in pack %}
+      <tr>
+          <td>{{ l.id }}</td>
+          <td><a href ="{% url 'package_detail' l.id %}">{{ l.name }}</a></td>
+          <td>{{ l.by }}</td>
+          <td>{{ l.date_time }}</td>
+         
+          <td><a href ="{% url 'package_update' l.id  %}"><button  class="btn btn-primary btn-xs"  data-title="Edit" data-toggle="modal" data-target="#edit" type="button"><span class="glyphicon glyphicon-pencil"></span></button></a>
+            &nbsp;&nbsp;<button class="btn btn-danger btn-xs" href ="{% url 'package_delete'  l.id  %}"   data-title="Delete" data-toggle="modal" data-target="#delete" type="button"><span class="glyphicon glyphicon-trash"></span></button></td>
+          
+      </tr>
+      {% endfor %}
+      
+  </tbody>
+              
+  </table>
+  <script>
+    $(document).ready(function() {
+      $.noConflict();
+      $('#tes_table_com_pack').DataTable();
+    } );
+
+    $('#tes_table_com_pack tbody').on('click', 'button[data-target="#delete"]', function () {
+          event.preventDefault();
+          var btn = this;
+          var url=$(this).attr("href");
+          swal({
+              title: "want to delete",
+              text: "It will be deleted permanently",
+              showCancelButton: true,
+              confirmButtonColor: "#DD6B55",
+              confirmButtonText: "confirm",
+              cancelButtonText: "cancel",
+              closeOnConfirm: false,
+              closeOnCancel: false
+          }, function (isConfirm) {
+              if (isConfirm) {
+                $.ajax({
+                url: url,
+                success:function() {
+                  location.reload();
+                  swal({
+                      title: 'Deleted!', 
+                      text: 'Item  deleted successfully.',
+                      type: 'warning'
+                  });
+                 
+                
+                }
+                });
+              } else {
+                  swal("Failed", "Item cannot be deleted", "error");
+              }
+          });
+      });
+    </script>
+   
+ {% endblock %}
+
+ 

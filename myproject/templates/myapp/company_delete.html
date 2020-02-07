@@ -1,0 +1,7 @@
+{% block content %}
+<h2>Delete List</h2>
+<form action="" method="POST">{% csrf_token %}
+    <p>Are you sure you want to delete?</p>
+    <button class="btn btn-lg btn-block" type="submit" style="background-color: black; color: white; width:100px">Confirm</button>
+</form>
+{% endblock %}

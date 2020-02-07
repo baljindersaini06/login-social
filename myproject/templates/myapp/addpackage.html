@@ -1,0 +1,86 @@
+{% extends 'myapp/layout3.html' %}
+{% load static %}
+{% block content %}
+
+
+<h3 class="page-title">
+
+    Add Package<!--<small>user account page sample</small> -->
+
+    
+   </h3>
+   <div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="{% url 'dashboard' %}">Home</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <!-- <li>
+            <a href="#">Pages</a>
+            <i class="fa fa-angle-right"></i>
+        </li> -->
+        <li>
+            <a href="">Add Package</a>
+        </li>
+    </ul>
+</div>
+
+
+<div class="profile-content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet light">
+                    <div class="portlet-title tabbable-line">
+                        <div class="caption caption-md">
+                            <i class="icon-globe theme-font hide"></i>
+                            <span class="caption-subject font-blue-madison bold uppercase" align="center">Add Package</span>
+                        </div><br><br><br>
+<form action="" method="POST" id="package" name="package">
+    {% csrf_token %}
+    
+    <div class="form-group">
+         </div> 
+    <div class="form-group">
+        <label class="control-label">Name</label>
+        <input type="text" name="name" id="name" class="form-control"/>
+        <!-- <select class="form-control" id="name" name="name">
+            <option value="" ></option>
+        
+            {% for p in website %}
+            <option value="{{ p.id }}" >{{ p.website_type_name }}</option>
+            {% endfor %}
+            
+        </select> -->
+    </div>
+    <div class="form-group">
+            <label class="control-label">Description</label>
+            <input type="text" name="description" id="description" class="form-control"/>
+        </div>
+
+    <div class="form-group">
+        <label class="control-label">ConnectWise Sync</label>
+        <input type="checkbox" name="connectwise_check" id="connectwise_check"  value="1" class="form-control"/>
+    </div>
+    <div class="form-group" id="show" name="show" style="display:none;">
+        <label class="control-label">ConnectWise Api</label>
+        <input type="text" name="connectwise_api" id="connectwise_api" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label class="control-label">Moneris Module</label>
+        <input type="checkbox" name="moneris_check" id="moneris_check"  value="1" class="form-control"/>
+    </div>
+    <div class="form-group" id="show1" name="show1" style="display:none;">
+        <label class="control-label">Moneris Api</label>
+        <input type="text" name="moneris_api" id="moneris_api" class="form-control"/>
+    </div>
+    
+    <div class="margin-top-10">
+        <input class="btn green-haze" type="submit" name="btnform2" />
+        <a href="javascript:;" class="btn default">
+        Cancel </a>
+    </div>
+</form>
+</div>
+
+{% endblock %}

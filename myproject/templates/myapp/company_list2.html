@@ -1,0 +1,84 @@
+{% extends 'myapp/layout3.html' %}
+{% load static %}
+{% block content %}
+
+<table id="test_table" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Company Name</th>
+            <th>Description</th>
+            <th>Website</th>
+            <th>Address</th>
+            <th>Location</th>
+            <th>Pincode</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th>Id</th>
+            <th>Company Name</th>
+            <th>Description</th>
+            <th>Website</th>
+            <th>Address</th>
+            <th>Location</th>
+            <th>Pincode</th>
+        </tr>
+    </tfoot>
+</table>
+
+<script type="text/javascript">
+var editor; // use a global for the submit and return data rendering in the examples
+ 
+$(document).ready(function() {
+    editor = new $.fn.dataTable.Editor( {
+        ajax: "static/company.json",
+        table: "#test_table",
+        fields: [ {
+                label: "ID:",
+                name: "company_id"
+            }, {
+                label: "Company Name:",
+                name: "company_name"
+            }, {
+                label: "Description:",
+                name: "description"
+            }, {
+                label: "Website:",
+                name: "company_website"
+            }, {
+                label: "Company Address:",
+                name: "company_address"
+            }, {
+                label: "Company Location:",
+                name: "company_location",
+            }, {
+                label: "Company Pincode:",
+                name: "company_pincode"
+            }
+        ]
+    } );
+ 
+    $('#example').DataTable( {
+        dom: "Bfrtip",
+        ajax: "static/company.json",
+        columns: [
+            { data: "company_id" },
+            { data: "company_name" },
+            { data: "description" },
+            { data: "company_website" },
+            { data: "company_address" },
+            { data: "company_location" },
+            { data: "company_pincode" },
+        ],
+        select: true,
+        buttons: [
+            { extend: "create", editor: editor },
+            { extend: "edit",   editor: editor },
+            { extend: "remove", editor: editor }
+        ]
+    } );
+} );
+</script>
+
+{% endblock %}

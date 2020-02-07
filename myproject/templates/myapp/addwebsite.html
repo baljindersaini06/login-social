@@ -1,0 +1,85 @@
+{% extends 'myapp/layout4.html' %}
+{% load static %}
+{% block content %}
+
+
+<h3>
+    Add Website <!--<small>user account page sample</small> -->
+   </h3>
+   <div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="{% url 'dashboard' %}">Home</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <!-- <li>
+            <a href="#">Pages</a>
+            <i class="fa fa-angle-right"></i>
+        </li> -->
+        <li>
+            <a href="">Add Website</a>
+        </li>
+    </ul>
+</div>
+
+
+<div class="profile-content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet light">
+                    <div class="portlet-title tabbable-line">
+                        <div class="caption caption-md">
+                            <i class="icon-globe theme-font hide"></i>
+                            <span class="caption-subject font-blue-madison bold uppercase" align="center">Website Records</span>
+                        </div><br><br><br>
+<form action="" method="POST" id="login-form" name="website" >
+    {% csrf_token %}
+    
+    <div class="form-group">
+            <!-- <label class="control-label">Company Name</label>
+            <select class="form-control" id="website_company_name" name="website_company_name">
+                {% for c in compp %}
+                    <option value="{{ c.id }}">{{ c.company_name }}</option>
+                {% endfor %}
+            </select>
+         </div>  -->
+    <div class="form-group">
+        <label class="control-label">Website Type</label>
+        <select class="form-control" id="website_type" name="website_type">
+            {% for d in web %}
+                <option value="{{ d.id }}">{{ d.website_type_name }}</option>
+            {% endfor %}
+        </select>
+    
+    </div>
+    <div class="form-group">
+            <label class="control-label">Website Name</label>
+            <input type="text" name="website_name" id="website_name" class="form-control"/>
+        </div>
+    <div class="form-group">
+        <label class="control-label">Website Url</label>
+        <input type="text" name="website_url" id="website_url" class="form-control"/>
+    </div>
+
+    {% if headquater_website %}
+        <div class="form-group" id="show" name="show" style="display:none;">
+                <label class="control-label">Is a headquater website</label>
+                <input type="hidden" name="is_headquater_website" id="is_headquater_website" class="form-control"/>
+            </div>
+    
+    {% else %}
+        <div class="form-group">
+                <label class="control-label">Is a headquater website</label>
+                <input type="checkbox" name="is_headquater_website" id="is_headquater_website" class="form-control"/>
+            </div>
+    {% endif %}
+    <div class="margin-top-10">
+        <input class="btn green-haze" type="submit" name="btnform2" />
+        <a href="javascript:;" class="btn default">
+        Cancel </a>
+    </div>
+</form>
+</div>
+
+{% endblock %}

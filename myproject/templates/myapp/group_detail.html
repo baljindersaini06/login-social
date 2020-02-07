@@ -1,0 +1,64 @@
+{% extends 'myapp/layout3.html' %}
+{% load static %}
+{% block content %}
+<table id="example1" class="display" cellspacing="0" width="100%">
+    <thead>
+        <!-- <tr>
+            <th><strong>Group Name - {{ groupdetail.name }}</th>
+        </tr> -->
+        <tr>
+                
+                <th>Permissions</th>
+            </tr>
+    </thead>
+ <h2>Group Name - <strong>{{ groupdetail.name }}</strong></h2><br><br>
+    <tbody>   
+        <!-- <tr><td></td></tr> -->
+        
+        {% for m in grpper %}
+        <tr>
+          
+            <td>{{ m.name }}</td>
+           
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+    
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

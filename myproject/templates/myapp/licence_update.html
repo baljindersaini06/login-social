@@ -1,0 +1,92 @@
+{% extends 'myapp/layout4.html' %}
+{% load static %}
+{% block content %}
+
+
+<h3 class="page-title">
+    Update Licence<!--<small>user account page sample</small> -->
+   </h3>
+   <div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="{% url 'dashboard' %}">Home</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+                <a href="{% url 'company_view' %}">{{ compdetail.company_name }}</a>
+                <i class="fa fa-angle-right"></i>
+            </li> 
+        <!-- <li>
+            <a href="#">Pages</a>
+            <i class="fa fa-angle-right"></i>
+        </li> -->
+        <li>
+            <a href="">Update Licence</a>
+        </li>
+    </ul>
+</div>
+
+
+<div class="profile-content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet light">
+                    <div class="portlet-title tabbable-line">
+                        <div class="caption caption-md">
+                            <i class="icon-globe theme-font hide"></i>
+                            <span class="caption-subject font-blue-madison bold uppercase" align="center">Update Licence</span>
+                        </div><br><br><br>
+<form action="" method="POST" id="login-form" name="employee">
+    {% csrf_token %}
+    
+    <div class="form-group">
+         </div> 
+         <div class="form-group">
+            <label class="control-label">licence type</label>
+            <select class="form-control" id="licence_type_id" name="licence_type_id" value="{{ lic.licence_type_id }}">
+                {% for l in a %}
+                    <option value="{{ l.id }}">{{ l.licence_type_name }}</option>
+                {% endfor %}
+            </select>        </div>
+    <div class="form-group">
+        <label class="control-label">licence name</label>
+        <input type="text" name="licence_name" id="licence_name"  value="{{ lic.licence_name }}" class="form-control"/>
+    </div>
+    <div class="form-group">
+            <label class="control-label">licence quantity</label>
+            <input type="number" name="licence_quantity" id="licence_quantity"  value="{{ lic.licence_quantity }}" class="form-control"/>
+        </div>
+    <div class="form-group">
+        <label class="control-label">licence key</label>
+        <input type="text" name="licence_key" id="licence_key"  value="{{ lic.licence_key }}" class="form-control"/>
+    </div>
+    <div class="form-group">
+            <label class="control-label">aquisition date</label>
+            <input type="date" name="aquisition_date" id="aquisition_date"   value="{{ lic.aquisition_date|date:'Y-m-d' }}" class="form-control"/>
+        </div>
+    <div class="form-group">
+        <label class="control-label">activation date</label>
+        <input type="date" name="activation_date" id="activation_date"  value="{{ lic.activation_date|date:'Y-m-d' }}" class="form-control"/>
+
+      
+    </div>
+    <div class="form-group">
+        <label class="control-label">expire date</label>
+        <input type="date" name="expire_date" id="expire_date" value="{{ lic.expire_date|date:'Y-m-d' }}" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label class="control-label">licence note</label>
+        <input type="date" name="licence_note" id="licence_note" value="{{ lic.licence_note }}" class="form-control"/>
+    </div>
+  
+    
+    <div class="margin-top-10">
+        <input class="btn green-haze" type="submit" name="btnform2" />
+        <a href="javascript:;" class="btn default">
+        Cancel </a>
+    </div>
+</form>
+</div>
+
+{% endblock %}
