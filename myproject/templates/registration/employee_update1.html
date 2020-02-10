@@ -61,6 +61,17 @@
         <input type="email" name="employee_email" id="employee_email"  value="{{ employee.employee_email }}"  class="form-control"/>
     </div>
     
+    <div class="form-group">
+        <label class="control-label">Workstation</label>
+        <select class="form-control" id="workstation" name="workstation" value="{{ employee.workstation }}" >
+            <option value="" ></option>
+            {% for p in emp %}
+            <option value="{{ p.id }}" >{{ p.device_name }}</option>
+            {% endfor %}
+            
+        </select>
+    </div>
+
     <div class="margin-top-10">
         <input class="btn green-haze" type="submit" name="btnform2" />
         <a href="" class="btn default">

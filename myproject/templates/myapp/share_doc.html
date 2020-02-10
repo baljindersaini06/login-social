@@ -67,9 +67,10 @@
            
             <p><strong>Created At</strong> - {{ doc_detail.created_at }}</p>
             <p><strong>Updated At</strong> - {{ doc_detail.updated_at }}</p>
+            {% if files_exists %}
             <p><strong>Files Attached</strong> - {% for file in files %} 
               <a href = "{{ file.file_upload.url }}">{{ file.file_upload }}</a><br><br>
           {% endfor %}</p>
-    
+          {% endif %}
         </div>
     

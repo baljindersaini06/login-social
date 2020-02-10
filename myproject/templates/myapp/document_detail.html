@@ -157,6 +157,8 @@ tr:nth-child(even) {
                                 <strong>Content</strong> - {{ doc_detail.content }}<br><br>
                                 <strong>Created At</strong> - {{ doc_detail.created_at }}<br></p><br>
                                 <strong>Updated At</strong> - {{ doc_detail.updated_at }}<br></p><br>
+                                
+                                {% if files_exists %}
                                 <strong>Files Attached-</strong> 
                                 
                             <table id="file_table">
@@ -173,7 +175,7 @@ tr:nth-child(even) {
                                 </tr>
                                 {% endfor %}
                               </table>
-                              
+                            {% endif %}
                             </div>
                         </div>
                     </div>

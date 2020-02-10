@@ -1347,6 +1347,7 @@ def document_detail(request,doc_id):
     compdetail=Company.objects.get(id=doc_detail.compani_name.id)
  
     files=Document_File.objects.filter(document=doc_detail.id)
+    files_exists=Document_File.objects.filter(document=doc_detail.id).exists()
 
     loc_count=Location.objects.filter(company_id=compdetail.id).count()
     web_count=Website.objects.filter(website_company_name=compdetail.id).count()
@@ -1356,7 +1357,7 @@ def document_detail(request,doc_id):
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
 
-    return render(request,'myapp/document_detail.html',{'doc_detail':doc_detail,'files':files,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count})
+    return render(request,'myapp/document_detail.html',{'doc_detail':doc_detail,'files':files,'files_exists':files_exists,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count})
 
 
 
@@ -1620,8 +1621,9 @@ def device_update(request,device_id,cmp_id):
 def share_doc(request,doc_id):
     doc_detail=Documents.objects.get(id=doc_id)
     files=Document_File.objects.filter(document=doc_detail.id)
+    files_exists=Document_File.objects.filter(document=doc_detail.id).exists()
 
     share_string=quote(doc_detail.title)
-    return render(request,'myapp/share_doc.html',{'doc_detail':doc_detail,'files':files,'share_string':share_string})
+    return render(request,'myapp/share_doc.html',{'doc_detail':doc_detail,'files':files,'share_string':share_string,'files_exists':files_exists})
 
 
