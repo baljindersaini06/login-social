@@ -63,12 +63,24 @@ tr:nth-child(even) {
                 <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}" class="fa fa-twitter">
                     
                     </a>&nbsp;
-                    <a href="https://accounts.google.com/signin/v2/identifier?service=mail&passive=true&rm=false&continue=https%3A%2F%2Fmail.google.com%2Fmail%2F&ss=1&scc=1&ltmpl=default&ltmplcache=2&emr=1&osid=1&flowName=GlifWebSignIn&flowEntry=ServiceLogin?subject=I wanted you to see this site&amp;body={{ doc_detail.file_upload.url }}"
+                 
+
+   <a href="https://mail.google.com/mail/?extsrc=mailto&url=mailto%3A%3Fto%26subject%3D{{ share_string }}%26body%3D{{ gmail_share_string }}" class="fa fa-google"></a>
+   
+   &nbsp;
+   <a href="https://web.whatsapp.com/send?text={{ request.build_absolute_uri }}" data-action="share/whatsapp/share" class="fa fa-whatsapp"></a>
+  </div>
+   
+   <!-- <a href="mailto:?Subject=Share Document&amp;Body={{ request.build_absolute_uri }}">
+      <img src="https://simplesharebuttons.com/images/somacro/email.png" alt="Email" />
+  </a> -->
+
+    <!-- <a href="https://www.addtoany.com/add_to/email?linkurl=http%3A%2F%2F127.0.0.1%3A8000%2Fshare_doc%2F1%2F&amp;linkname=" target="_blank"><img src="https://static.addtoany.com/buttons/email.svg" width="32" height="32" style="background-color:royalblue"></a> -->
+
+      <!-- <a href="https://accounts.google.com/signin/v2/identifier?service=mail&passive=true&rm=false&continue=https%3A%2F%2Fmail.google.com%2Fmail%2F&ss=1&scc=1&ltmpl=default&ltmplcache=2&emr=1&osid=1&flowName=GlifWebSignIn&flowEntry=ServiceLogin?subject=I wanted you to see this site&amp;body={{ request.build_absolute_uri }}"
        title="Share by Email" class="fa fa-google">
      
-    </a>&nbsp;
-    <a href="https://web.whatsapp.com/send?text={{ request.build_absolute_uri }}" data-action="share/whatsapp/share" class="fa fa-whatsapp"></a>
-    </div>
+    </a>&nbsp; -->
     
     
     
