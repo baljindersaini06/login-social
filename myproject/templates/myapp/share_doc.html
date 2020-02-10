@@ -35,6 +35,21 @@
       background: lightgreen;
       color: white;
     }
+    table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
     </style>
         
         
@@ -68,15 +83,33 @@
             <p><strong>Created At</strong> - {{ doc_detail.created_at }}</p>
             <p><strong>Updated At</strong> - {{ doc_detail.updated_at }}</p>
             {% if files_exists %}
-            <p><strong>Files Attached</strong> - {% for file in files %} 
-              <a href = "{{ file.file_upload.url }}">{{ file.file_upload }}</a><br><br>
-          {% endfor %}</p>
+         
+               <table id="file_table">
+              <tr>
+                <th>Files Attached</th>
+              </tr>
+              {% for file in files %} 
+              <tr>
+                <td> <a href = "{{ file.file_upload.url }}">{{ file.file_upload }}</a></td>               
+              </tr>
+              {% endfor %}
+            </table>
           {% endif %}
-          <br>
+          <br><br>
           {% if links_exists %}
-            <p><strong>Links Attached</strong> - {% for link in links %} 
-              {{ link.links }}<br>
-          {% endfor %}</p>
-          {% endif %}
+         
+      <table id="links_table">
+          <tr>
+            <th>Links Attached</th>
+           
+            
+          </tr>
+          {% for link in links %} 
+          <tr>
+            <td>{{ link.links }}</td>           
+          </tr>
+          {% endfor %}
+        </table>
+      {% endif %}
         </div>
     
