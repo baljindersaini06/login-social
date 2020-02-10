@@ -72,5 +72,11 @@
               <a href = "{{ file.file_upload.url }}">{{ file.file_upload }}</a><br><br>
           {% endfor %}</p>
           {% endif %}
+          <br>
+          {% if links_exists %}
+            <p><strong>Links Attached</strong> - {% for link in links %} 
+              {{ link.links }}<br>
+          {% endfor %}</p>
+          {% endif %}
         </div>
     

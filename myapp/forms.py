@@ -310,7 +310,11 @@ class DocumentsFileForm(forms.ModelForm):
         fields = ('file_upload',)        
   
 
-
+class DocumentsLinkForm(forms.ModelForm):
+    class Meta:
+        model = Document_Links
+        fields = ('links',)        
+  
 
 class PackageForm(forms.ModelForm):
     class Meta:

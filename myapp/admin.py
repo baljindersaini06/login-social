@@ -18,6 +18,7 @@ admin.site.register(Licence)
 admin.site.register(Document_category)
 admin.site.register(Documents)
 admin.site.register(Document_File)
+admin.site.register(Document_Links)
 
 
 

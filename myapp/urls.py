@@ -92,6 +92,8 @@ urlpatterns=[
     path('document_detail/<int:doc_id>/',views.document_detail,name='document_detail'),
     path('documents_file/<int:doc_id>/',views.documents_file,name='documents_file'),
     path('documents_file_delete/<int:file_id>/',views.documents_file_delete,name='documents_file_delete'),
+    path('documents_links/<int:doc_id>/',views.documents_links,name='documents_links'),
+    path('documents_links_delete/<int:link_id>/',views.documents_links_delete,name='documents_links_delete'),
 
 
 
