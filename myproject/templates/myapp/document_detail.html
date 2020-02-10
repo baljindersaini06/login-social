@@ -9,10 +9,10 @@
       background-color: #36918b; /* Green */
       border: none;
       color: white;
-      padding:9px 6px 9px 7px;
+      padding:7px 4px 7px 5px;
       text-align: center;
       display: inline-block;
-      font-size: 16px;
+      font-size: 14px;
       margin: 4px 4px;
       cursor: pointer;
       border-radius: 35px!important;
@@ -41,7 +41,7 @@ tr:nth-child(even) {
   </style>
 <h3 class="page-title">
     Document Detail <!--<small>user account page sample</small> -->
-    <button class="add-button" type="button"><a style="text-decoration:none;color:white;" href="{% url 'documents_file' doc_detail.id  %}">Add File</a></button> <button class="add-button" type="button"><a style="text-decoration:none;color:white;" href="{% url 'share_doc' doc_detail.id  %}">Share</a></button>    <button class="add-button" type="button"><a style="text-decoration:none;color:white;" href="{% url 'document_update' doc_detail.compani_name.id doc_detail.id  %}">Edit</a></button>
+    <button class="add-button" type="button"><a style="text-decoration:none;color:white;" href="{% url 'documents_links' doc_detail.id  %}">Add Links</a></button><button class="add-button" type="button"><a style="text-decoration:none;color:white;" href="{% url 'documents_file' doc_detail.id  %}">Add File</a></button> <button class="add-button" type="button"><a style="text-decoration:none;color:white;" href="{% url 'share_doc' doc_detail.id  %}">Share</a></button>    <button class="add-button" type="button"><a style="text-decoration:none;color:white;" href="{% url 'document_update' doc_detail.compani_name.id doc_detail.id  %}">Edit</a></button>
 
 
    </h3>
@@ -176,6 +176,25 @@ tr:nth-child(even) {
                                 {% endfor %}
                               </table>
                             {% endif %}
+                            <br><br>
+                            {% if links_exists %}
+                            <strong>Links Attached-</strong> 
+                            
+                        <table id="links_table">
+                            <tr>
+                              <th>Link</th>
+                              <th>Delete</th>
+                              
+                            </tr>
+                            {% for link in links %} 
+                            <tr>
+                              <td>{{ link.links }}</td>
+                              <td><a href="{% url 'documents_links_delete' link.id  %}"><button class="btn btn-danger btn-xs"  data-title="Delete" data-toggle="modal" data-target="#delete" type="button"><span class="glyphicon glyphicon-trash"></span></button></a></td>
+                             
+                            </tr>
+                            {% endfor %}
+                          </table>
+                        {% endif %}
                             </div>
                         </div>
                     </div>

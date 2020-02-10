@@ -1312,6 +1312,37 @@ def documents_file(request,doc_id):
 
 
 
+def documents_links(request,doc_id):
+    document=Documents.objects.get( id=doc_id)
+    compdetail=Company.objects.get(id=document.compani_name.id)
+
+    loc_count=Location.objects.filter(company_id=compdetail.id).count()
+    web_count=Website.objects.filter(website_company_name=compdetail.id).count()
+    lic_count=Licence.objects.filter(company_id=compdetail.id).count()
+    doc_count=Documents.objects.filter(compani_name=compdetail.id).count()
+    packs_count=Company_package.objects.filter(companys_name=compdetail.id).count()
+    device_count=Device.objects.filter(company_id=compdetail.id).count()
+    employee_count=Employee.objects.filter(company_name=compdetail.id).count()
+
+    if request.method == 'POST':
+        form = DocumentsLinkForm(request.POST)
+        print("addsa")
+        if form.is_valid():
+            print("dasf")
+            doc = form.save(commit=False)
+            doc.document = Documents.objects.get( id=doc_id)
+            doc.save()
+            return HttpResponseRedirect(reverse('document_detail',args=(doc_id,)))          
+    else:
+        form = DocumentsLinkForm()
+    return render(request, 'myapp/documents_links.html', {'form': form,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count}) 
+
+
+
+
+
+
+
 
 def document_update(request,cmp_id,doc_id):
     compdetail=Company.objects.get(id=cmp_id)
@@ -1349,6 +1380,9 @@ def document_detail(request,doc_id):
     files=Document_File.objects.filter(document=doc_detail.id)
     files_exists=Document_File.objects.filter(document=doc_detail.id).exists()
 
+    links=Document_Links.objects.filter(document=doc_detail.id)
+    links_exists=Document_Links.objects.filter(document=doc_detail.id).exists()
+
     loc_count=Location.objects.filter(company_id=compdetail.id).count()
     web_count=Website.objects.filter(website_company_name=compdetail.id).count()
     lic_count=Licence.objects.filter(company_id=compdetail.id).count()
@@ -1357,7 +1391,7 @@ def document_detail(request,doc_id):
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
 
-    return render(request,'myapp/document_detail.html',{'doc_detail':doc_detail,'files':files,'files_exists':files_exists,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count})
+    return render(request,'myapp/document_detail.html',{'doc_detail':doc_detail,'files':files,'files_exists':files_exists,'links':links,'links_exists':links_exists,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count})
 
 
 
@@ -1376,6 +1410,17 @@ def documents_file_delete(request,file_id):
     doc_id=doc_file.document.id   
     messages.success(request, "File is deleted")  
     return HttpResponseRedirect(reverse('document_detail',args=(doc_id,)))
+
+
+def documents_links_delete(request,link_id):
+
+    doc_link = Document_Links.objects.get(id=link_id)
+    doc_link.delete() 
+    doc_id=doc_link.document.id   
+    messages.success(request, "Link is deleted")  
+    return HttpResponseRedirect(reverse('document_detail',args=(doc_id,)))
+
+
 
 
 
@@ -1623,7 +1668,9 @@ def share_doc(request,doc_id):
     files=Document_File.objects.filter(document=doc_detail.id)
     files_exists=Document_File.objects.filter(document=doc_detail.id).exists()
 
-    share_string=quote(doc_detail.title)
-    return render(request,'myapp/share_doc.html',{'doc_detail':doc_detail,'files':files,'share_string':share_string,'files_exists':files_exists})
+    links=Document_Links.objects.filter(document=doc_detail.id)
+    links_exists=Document_Links.objects.filter(document=doc_detail.id).exists()
 
+    share_string=quote(doc_detail.title)
+    return render(request,'myapp/share_doc.html',{'doc_detail':doc_detail,'files':files,'share_string':share_string,'files_exists':files_exists,'links':links,'links_exists':links_exists})
 

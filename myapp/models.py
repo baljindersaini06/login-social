@@ -159,6 +159,13 @@ class Document_File(models.Model):
         return 'document_files/%s/' % self.file_upload
 
 
+class Document_Links(models.Model):
+    document = models.ForeignKey('Documents', on_delete=models.CASCADE)
+    links = models.URLField(max_length = 400,default="")
+
+    def __str__(self):
+        return str(self.links)
+
 
 
 class LicenceType(models.Model):
