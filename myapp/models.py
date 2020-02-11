@@ -239,3 +239,13 @@ class Device(models.Model):
         return self.device_name
 
 
+class Meeting(models.Model):
+    title = models.CharField(max_length=200)
+    attendees = models.ManyToManyField(Employee)    
+    date_time=models.DateTimeField(default=timezone.now, blank=True)
+    where=models.CharField(max_length=200)
+    priority = models.IntegerField()
+    by=models.ForeignKey('User', on_delete=models.CASCADE,blank=True, null=True,related_name='by_user')
+
+    def __str__(self):
+        return self.title
