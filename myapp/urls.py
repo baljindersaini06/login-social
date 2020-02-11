@@ -118,6 +118,7 @@ urlpatterns=[
 
     path('share_doc/<int:doc_id>/',views.share_doc,name='share_doc'),
    
+    path('meetings/<int:cmp_id>/',views.meetings,name='meetings'),
 
 
 

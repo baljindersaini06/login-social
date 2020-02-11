@@ -1677,3 +1677,25 @@ def share_doc(request,doc_id):
     share_string=quote(doc_detail.title)
     return render(request,'myapp/share_doc.html',{'doc_detail':doc_detail,'gmail_share_string':gmail_share_string,'files':files,'share_string':share_string,'files_exists':files_exists,'links':links,'links_exists':links_exists})
 
+
+
+
+
+def meetings(request,cmp_id):
+    compdetail=Company.objects.get(id=cmp_id)  
+    print(compdetail.id)
+    by=request.user
+    lt=Employee.objects.filter(company_name=cmp_id)
+    print(lt)
+    if request.method == 'POST':
+        form = Meeting_Form(request.POST)
+        print("addsa")
+        if form.is_valid():
+            a = form.save(commit=False)
+            a.by = User.objects.get(pk=by.id)
+            a.save()
+        return HttpResponseRedirect(reverse('device_list',args=(cmp_id,))) 
+            
+    else:
+        form = Meeting_Form()
+    return render(request, 'myapp/meeting.html', {'form': form,'compdetail':compdetail,'lt':lt})

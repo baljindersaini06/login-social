@@ -340,3 +340,13 @@ class Device_UpdateForm(forms.ModelForm):
         fields = ('device_name','device_url_address','device_note','device_configuration_id','device_configuration_parent_id')          
 
 
+
+class Meeting_Form(forms.ModelForm):
+    attendees = forms.ModelMultipleChoiceField(
+        queryset=Employee.objects.all(),
+        widget=forms.SelectMultiple(attrs={"class" : "form-control select-multiple"}))
+    
+    
+    class Meta:
+        model = Meeting
+        fields=('title','date_time','where','attendees','priority')
