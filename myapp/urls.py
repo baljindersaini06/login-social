@@ -116,7 +116,7 @@ urlpatterns=[
     path('device_delete/<int:device_id>/<int:cmp_id>/',views.device_delete,name='device_delete'),
     path('device_update/<int:device_id>/<int:cmp_id>/',views.device_update,name='device_update'),
 
-    path('share_doc/<int:doc_id>/',views.share_doc,name='share_doc'),
+    # path('share_doc/<int:doc_id>/',views.share_doc,name='share_doc'),
    
     path('meetings/<int:cmp_id>/',views.meetings,name='meetings'),
 

@@ -1678,19 +1678,19 @@ def device_update(request,device_id,cmp_id):
 
 
 
-def share_doc(request,doc_id):
-    doc_detail=Documents.objects.get(id=doc_id)
-    files=Document_File.objects.filter(document=doc_detail.id)
-    files_exists=Document_File.objects.filter(document=doc_detail.id).exists()
+# def share_doc(request,doc_id):
+#     doc_detail=Documents.objects.get(id=doc_id)
+#     files=Document_File.objects.filter(document=doc_detail.id)
+#     files_exists=Document_File.objects.filter(document=doc_detail.id).exists()
     
-    links=Document_Links.objects.filter(document=doc_detail.id)
-    links_exists=Document_Links.objects.filter(document=doc_detail.id).exists()
-    url_text=request.build_absolute_uri()
-    print(url_text)
-    gmail_share_string=quote(url_text)
-    print(gmail_share_string)
-    share_string=quote(doc_detail.title)
-    return render(request,'myapp/share_doc.html',{'doc_detail':doc_detail,'gmail_share_string':gmail_share_string,'files':files,'share_string':share_string,'files_exists':files_exists,'links':links,'links_exists':links_exists})
+#     links=Document_Links.objects.filter(document=doc_detail.id)
+#     links_exists=Document_Links.objects.filter(document=doc_detail.id).exists()
+#     url_text=request.build_absolute_uri()
+#     print(url_text)
+#     gmail_share_string=quote(url_text)
+#     print(gmail_share_string)
+#     share_string=quote(doc_detail.title)
+#     return render(request,'myapp/share_doc.html',{'doc_detail':doc_detail,'gmail_share_string':gmail_share_string,'files':files,'share_string':share_string,'files_exists':files_exists,'links':links,'links_exists':links_exists})
 
 
 
