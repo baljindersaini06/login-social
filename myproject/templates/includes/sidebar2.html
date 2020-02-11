@@ -45,6 +45,7 @@
                     
 					<!-- END RESPONSIVE QUICK SEARCH FORM -->
 				</li>
+				{% if request.user.is_authenticated %}
 				<li class="start ">
 					<a href="{% url 'dashboard1' %}">
 					<i class="icon-home"></i>
@@ -69,6 +70,7 @@
 						</li>
 					</ul> -->
 				</li>
+				{% endif %}
 				<!-- <li>
 					<a href="javascript:;">
 					<i class="icon-basket"></i>

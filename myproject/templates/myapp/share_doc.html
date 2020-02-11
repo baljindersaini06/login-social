@@ -1,9 +1,12 @@
+{% load static %}
+{% load user_tags %}
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"><div style="text-align:left;margin-left:30%;margin-top: 40px;">
     <style>
     .fa {
-        padding: 10px;
-        font-size: 30px;
-        width: 30px;
+        padding: 6px;
+        font-size: 25px;
+        width: 25px;
         text-align: center;
         text-decoration: none;
         margin: 5px 2px;
@@ -51,9 +54,9 @@ tr:nth-child(even) {
   background-color: #dddddd;
 }
     </style>
+        {% if request.user.is_authenticated %}
         
-        
-        <strong style="font-size: 25px;">Share With:</strong>&nbsp;&nbsp;
+        <strong style="font-size: 20px;">Share With:</strong>&nbsp;&nbsp;
         <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" class="fa fa-facebook">
            
             </a>&nbsp;
@@ -65,11 +68,11 @@ tr:nth-child(even) {
                     </a>&nbsp;
                  
 
-   <a href="https://mail.google.com/mail/?extsrc=mailto&url=mailto%3A%3Fto%26subject%3D{{ share_string }}%26body%3D{{ gmail_share_string }}" class="fa fa-google"></a>
-   
-   &nbsp;
-   <a href="https://web.whatsapp.com/send?text={{ request.build_absolute_uri }}" data-action="share/whatsapp/share" class="fa fa-whatsapp"></a>
-  </div>
+        <a href="https://mail.google.com/mail/?extsrc=mailto&url=mailto%3A%3Fto%26subject%3D{{ share_string }}%26body%3D{{ gmail_share_string }}" class="fa fa-google"></a>
+        
+        &nbsp;
+        <a href="https://web.whatsapp.com/send?text={{ request.build_absolute_uri }}" data-action="share/whatsapp/share" class="fa fa-whatsapp"></a>
+        </div>
    
    <!-- <a href="mailto:?Subject=Share Document&amp;Body={{ request.build_absolute_uri }}">
       <img src="https://simplesharebuttons.com/images/somacro/email.png" alt="Email" />
@@ -84,8 +87,9 @@ tr:nth-child(even) {
     
     
     
-    
-            <div style="text-align:left;margin-left:35%;margin-top: 60px;" >       
+    {% endif %}
+            <h2 style="text-align:left;margin-left:40px;margin-top: 30px;">{{ doc_detail.title }}</h2>
+            <div style="text-align:left;margin-left:40px;margin-top: 50px;" >       
             <p><strong>Company Name</strong> - {{ doc_detail.compani_name.company_name }}</p>
             <p><strong>Document Category</strong> - {{ doc_detail.document_category_id.name_type }}</p>
             <p><strong>Document Name</strong> - {{ doc_detail.name }}</p>
