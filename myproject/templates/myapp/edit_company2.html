@@ -30,7 +30,7 @@
                             <i class="icon-globe theme-font hide"></i>
                             <span class="caption-subject font-blue-madison bold uppercase" align="center">Update Company</span>
                         </div><br><br><br>
-<form action="" method="POST" id="form9" enctype="multipart/form-data">
+<form action="" method="POST"  enctype="multipart/form-data">
     {% csrf_token %}
     
     <div class="form-group">
@@ -48,7 +48,7 @@
     
     <div class="form-group">
         <label class="control-label">Company Logo</label>
-        <input type="file" name="company_logo" id="company_logo" value="{{ company.company_logo.url }}" class="form-control"/>
+        <input type="file" name="company_logo" id="company_logo" value="{{ company.company_logo.url }}" class="form-control"/><a href="{{ company.company_logo.url }}">{{ company.company_logo }}</a>
     </div>
     <div class="form-group">
         <label class="control-label">Company Map Url</label><br><a href="https://www.embedgooglemap.org"><strong>embed a google map from here and enter "src" attribute from html code.</strong></a><br><br>

@@ -792,7 +792,7 @@ def user_update(request,user_id, template_name='myapp/edit_user.html'):
 
 def company_update(request, pk, template_name='myapp/edit_company2.html'):
     company= get_object_or_404(Company, pk=pk)
-    form = CompanyForm(request.POST or None, instance=company)
+    form = CompanyForm(request.POST or None, request.FILES, instance=company)
     if form.is_valid():
         form.save()
         return redirect('companyview')
@@ -1238,7 +1238,7 @@ def licence_update(request,cmp_id,lic_id):
 
 def documentss(request,cmp_id):
     compdetail=Company.objects.get(id=cmp_id)
-
+    doc_cat = Document_category.objects.all()
     loc_count=Location.objects.filter(company_id=compdetail.id).count()
     web_count=Website.objects.filter(website_company_name=compdetail.id).count()
     lic_count=Licence.objects.filter(company_id=compdetail.id).count()
@@ -1248,7 +1248,7 @@ def documentss(request,cmp_id):
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
 
     doc=Documents.objects.filter(compani_name=compdetail.id)
-    return render(request,'myapp/documents_list.html',{'doc':doc,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count})
+    return render(request,'myapp/documents_list.html',{'doc':doc,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'doc_cat':doc_cat})
 
 
 
@@ -1280,7 +1280,7 @@ def documents(request,cmp_id):
             
     else:
         form = DocumentsForm()
-    return render(request, 'myapp/add_documents.html', {'form': form,'doc':doc,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count}) 
+    return render(request, 'myapp/documents_list.html', {'form': form,'doc':doc,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count}) 
 
 
 
