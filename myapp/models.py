@@ -136,7 +136,7 @@ class Documents(models.Model):
     d_by=models.ForeignKey('User', on_delete=models.CASCADE,blank=True, null=True,related_name='userr')
     name = models.CharField(max_length=48)
     title = models.CharField(max_length=48)
-    content = models.CharField(max_length=48)
+    content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -235,7 +235,7 @@ class Device(models.Model):
     device_configuration_id=models.CharField(max_length=200)
     device_configuration_parent_id=models.CharField(max_length=200)
     asset_tag_number=models.CharField(max_length=200)
-    
+
     def __str__(self):
         return self.device_name
 
