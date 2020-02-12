@@ -234,7 +234,8 @@ class Device(models.Model):
     device_note=models.CharField(max_length=200)
     device_configuration_id=models.CharField(max_length=200)
     device_configuration_parent_id=models.CharField(max_length=200)
-
+    asset_tag_number=models.CharField(max_length=200)
+    
     def __str__(self):
         return self.device_name
 

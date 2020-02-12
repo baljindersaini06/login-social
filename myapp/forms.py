@@ -305,6 +305,7 @@ class DocumentsUpdateForm(forms.ModelForm):
 
 
 class DocumentsFileForm(forms.ModelForm):
+    file_upload=forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
     class Meta:
         model = Document_File
         fields = ('file_upload',)        
