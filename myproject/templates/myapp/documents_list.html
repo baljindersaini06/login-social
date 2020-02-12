@@ -31,11 +31,90 @@
   padding: 5px 9px;
   border-radius:5px!important;
 }
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  background-color: white;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 80px;
+  padding-left: 15px;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: black;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 30px;
+  right: 5px;
+  font-size: 36px;
+  
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
 </style>
+
+<div id="mySidenav" class="sidenav">
+<h4>Add Document</h4>
+  
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <form action="{% url 'documents' compdetail.id %}" method="POST" id="login-form" name="documents" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+   
+           
+    <div class="form-group">
+        <label class="control-label">Documents Type</label>
+        <select class="form-control" id="document_category_id" name="document_category_id">
+            <option value="" ></option>
+            {% for d in doc_cat %}
+                <option value="{{ d.id }}">{{ d.name_type }}</option>
+            {% endfor %}
+        </select>
+    
+    </div>
+    <div class="form-group">
+            <label class="control-label">Documents Name</label>
+            <input type="text" name="name" id="name" class="form-control"/>
+        </div>
+    <div class="form-group">
+        <label class="control-label">title</label>
+        <input type="text" name="title" id="title" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label class="control-label">content</label>
+        <input type="text" name="content" id="content" class="form-control"/>
+    </div>
+   
+    <div class="margin-top-10">
+        <input class="btn green-haze" type="submit" name="btnform2" />
+        
+    </div>
+</form>
+</div>
+
+
 <div>
 <h3 class="page-title">
   Documents List <!--<small>user account page sample</small> -->
-  <button class="add-button" type="button"><a style="text-decoration:none;color:white;" href="{% url 'documents' compdetail.id %}">Add Documents</a></button>
+  <button class="add-button" type="button" onclick="openNav()">Add Documents</button>
  </h3></div><br>
  <div class="page-bar">
   <ul class="page-breadcrumb">
@@ -133,7 +212,15 @@
           });
       });
     </script>
-    
+ <script>
+  function openNav() {
+    document.getElementById("mySidenav").style.width = "450px";
+  }
+  
+  function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+  }
+  </script>   
  {% endblock %}
 
  
