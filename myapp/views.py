@@ -792,7 +792,7 @@ def user_update(request,user_id, template_name='myapp/edit_user.html'):
 
 def company_update(request, pk, template_name='myapp/edit_company2.html'):
     company= get_object_or_404(Company, pk=pk)
-    form = CompanyForm(request.POST or None, instance=company)
+    form = CompanyForm(request.POST or None, request.FILES, instance=company)
     if form.is_valid():
         form.save()
         return redirect('companyview')
