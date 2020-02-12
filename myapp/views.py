@@ -1300,10 +1300,14 @@ def documents_file(request,doc_id):
         form = DocumentsFileForm(request.POST, request.FILES)
         print("addsa")
         if form.is_valid():
+            files = request.FILES.getlist('file_upload')
             print("dasf")
-            doc = form.save(commit=False)
-            doc.document = Documents.objects.get( id=doc_id)
-            doc.save()
+            for f in files:
+                instance = Document_File(document=document, file_upload=f)
+                instance.save()
+            #     doc = form.save(commit=False)
+            # doc.document = Documents.objects.get( id=doc_id)
+            # doc.save()
             return HttpResponseRedirect(reverse('document_detail',args=(doc_id,)))          
     else:
         form = DocumentsFileForm()
