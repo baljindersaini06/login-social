@@ -29,6 +29,8 @@ urlpatterns=[
     path('test_licence_key',views.test_licence_key, name='test_licence_key'),
     path('test_document',views.test_document, name='test_document'),
     path('test_device_url',views.test_device_url, name='test_device_url'),
+    path('test_meeting',views.test_meeting, name='test_meeting'),
+
 
     #path('user_registration', views.userre, name='user_registration'),
     path('company_registration', views.create_company, name='company_registration'),

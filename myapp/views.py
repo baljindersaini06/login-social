@@ -536,6 +536,16 @@ def test_device_url(request):
         return HttpResponse(response_str)
 
 
+def test_meeting(request):
+    response_str = "true"
+    if request.is_ajax():
+        title = request.GET.get("title")
+        meeting_exists = Meeting.objects.filter(title=title).exists()
+        print(meeting_exists)
+        if (meeting_exists == True):
+            response_str = "false"
+        return HttpResponse(response_str)
+
 
 @login_required
 @user_passes_test(lambda u: u.is_superuser)
