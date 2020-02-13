@@ -4,7 +4,7 @@ except ImportError:
     from urllib.parse import quote
 from django.shortcuts import render, reverse, redirect, get_object_or_404
 from .models import *
-
+from dal import autocomplete
 from activity_log.models import ActivityLog
 
 from .forms import *
@@ -1683,19 +1683,84 @@ def share_doc(request,doc_id):
 
 def meetings(request,cmp_id):
     compdetail=Company.objects.get(id=cmp_id)  
-    print(compdetail.id)
     by=request.user
     lt=Employee.objects.filter(company_name=cmp_id)
-    print(lt)
     if request.method == 'POST':
         form = Meeting_Form(request.POST)
         print("addsa")
         if form.is_valid():
             a = form.save(commit=False)
             a.by = User.objects.get(pk=by.id)
+            a.company_i = Company.objects.get(id=cmp_id)
             a.save()
-        return HttpResponseRedirect(reverse('device_list',args=(cmp_id,))) 
+            mail_subject = 'Meeting Scheduled'
+            message ='myapp/message.html', 
+            emailto = [form.cleaned_data["attendees"].employee_email]
+          
+            email = EmailMessage(mail_subject, message, to=[emailto])
+            email.send()
+        return HttpResponseRedirect(reverse('meeting',args=(cmp_id,))) 
             
     else:
         form = Meeting_Form()
     return render(request, 'myapp/meeting.html', {'form': form,'compdetail':compdetail,'lt':lt})
+
+
+
+
+
+
+def meeting_list(request,cmp_id):
+    compdetail=Company.objects.get(id=cmp_id)  
+    meet=Meeting.objects.filter(company_i=compdetail.id)
+    return render(request,'myapp/meeting_list.html',{'meet':meet,'compdetail':compdetail})  
+
+
+  
+
+def meeting_update(request,m_id,cmp_id):
+    compdetail=Company.objects.get(id=cmp_id)
+    meet=Meeting.objects.get(id=m_id)
+    emp1=meet.attendees.values('id')
+    emp_id_list = [e["id"] for e in emp1]
+    lt=Employee.objects.filter(company_name=cmp_id).exclude(id__in=emp_id_list)
+    emp=meet.attendees.all()
+    by=request.user
+    if request.method == 'POST':
+        form = Meeting_Form(request.POST, instance=meet)
+        if (form.is_valid()):
+            form.save()            
+            return HttpResponseRedirect(reverse('meeting',args=(cmp_id,))) 
+    else:
+        form = Meeting_Form(instance=meet)
+    return render(request, 'myapp/meeting_update.html', {
+        'form': form,'meet':meet,'compdetail':compdetail,'lt':lt,'emp':emp
+
+    })
+
+
+def meeting_delete(request,m_id,cmp_id):
+    b = Meeting.objects.get(id=m_id)
+    b.delete()    
+    messages.success(request, "The meeting is deleted")  
+    return HttpResponseRedirect(reverse('meeting',args=(cmp_id,)))
+
+def meeting_details(request,m_id,cmp_id):
+    compdetail=Company.objects.get(id=cmp_id)
+    meet= Meeting.objects.get(id=m_id)
+    lt=Meeting.objects.filter(id=meet.id)
+    emp=meet.attendees.all()
+    return render(request,'myapp/meeting_detail.html',{'meet':meet,'compdetail':compdetail,'lt':lt,'emp':emp})
+
+
+# class AttendeesAutocomplete(autocomplete.Select2QuerySetView):
+
+#     def get_queryset(self):
+#         # Don't forget to filter out results depending on the visitor !
+#         # if not self.request.user.is_authenticated():
+#         #     return Course.objects.none()
+#         print("dsfdff")
+#         qs = Employee.objects.all()
+#         if self.q:
+#             qs = qs.filter(name__istartswith=self.q)
+#         return qs  

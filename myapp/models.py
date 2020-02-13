@@ -240,9 +240,11 @@ class Device(models.Model):
 
 
 class Meeting(models.Model):
+    company_i = models.ForeignKey('Company', on_delete=models.CASCADE,blank=True, null=True)
     title = models.CharField(max_length=200)
     attendees = models.ManyToManyField(Employee)    
-    date_time=models.DateTimeField(default=timezone.now, blank=True)
+    date_time=models.DateField(default=timezone.now, blank=True)
+    time = models.TimeField(default=timezone.now, blank=True)
     where=models.CharField(max_length=200)
     priority = models.IntegerField()
     by=models.ForeignKey('User', on_delete=models.CASCADE,blank=True, null=True,related_name='by_user')
