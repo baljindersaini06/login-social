@@ -126,6 +126,8 @@ urlpatterns=[
     path('meeting_delete/<int:m_id>/<int:cmp_id>',views.meeting_delete,name='meeting_delete'),
     path('meeting_details/<int:m_id>/<int:cmp_id>',views.meeting_details,name='meeting_details'),
 
+    path('generate_meeting_pdf/<int:m_id>',views.generate_meeting_pdf,name='generate_meeting_pdf'),
+
     # url(r'^attendees-autocomplete/$',views.AttendeesAutocomplete.as_view(),name='attendees-autocomplete',),
 
 
