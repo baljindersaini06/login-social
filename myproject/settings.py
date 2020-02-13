@@ -56,7 +56,6 @@ INSTALLED_APPS = [
     'two_factor',
     'axes',
     'datatableview',
-    'dal_select2',
     'django_countries',
     'cities_light' ,
     'activity_log',

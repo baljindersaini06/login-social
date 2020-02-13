@@ -4,7 +4,6 @@ except ImportError:
     from urllib.parse import quote
 from django.shortcuts import render, reverse, redirect, get_object_or_404
 from .models import *
-from dal import autocomplete
 from activity_log.models import ActivityLog
 
 from .forms import *
@@ -1699,15 +1698,27 @@ def meetings(request,cmp_id):
         form = Meeting_Form(request.POST)
         print("addsa")
         if form.is_valid():
+            date_time=form.cleaned_data["date_time"]
+            time=form.cleaned_data["time"]
+            where=form.cleaned_data["where"]
+    
+            title=form.cleaned_data["title"]
+            attendees=form.cleaned_data["attendees"]
             a = form.save(commit=False)
             a.by = User.objects.get(pk=by.id)
             a.company_i = Company.objects.get(id=cmp_id)
             a.save()
             mail_subject = 'Meeting Scheduled'
-            message ='myapp/message.html', 
-            emailto = [form.cleaned_data["attendees"].employee_email]
-          
-            email = EmailMessage(mail_subject, message, to=[emailto])
+            message = render_to_string('myapp/email_message.html', {
+                'date_time': date_time,
+                'time': time,
+                'where':where ,
+                'title':title,
+                'by':by,
+                'attendees':attendees
+            })
+            emailto = [attendee.employee_email for attendee in form.cleaned_data["attendees"]]          
+            email = EmailMessage(mail_subject, message, to=emailto)
             email.send()
         return HttpResponseRedirect(reverse('meeting',args=(cmp_id,))) 
             
