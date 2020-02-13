@@ -40,6 +40,13 @@ from django.views.generic.edit import DeleteView
 from django.contrib.auth.models import Permission
 from django.contrib.admin.models import LogEntry
 from django_countries import countries
+from django.views.generic import View
+
+from myapp.utils import render_to_pdf
+from django.template.loader import get_template
+
+
+
 
 def group_required(group, login_url=None, raise_exception=False):
     """
@@ -1800,3 +1807,26 @@ def meeting_details(request,m_id,cmp_id):
 #         if self.q:
 #             qs = qs.filter(name__istartswith=self.q)
 #         return qs  
+
+
+
+def generate_meeting_pdf(request,m_id):
+    meeting=Meeting.objects.get(id=m_id)
+    attendees=meeting.attendees.all()
+    data = {
+            'meeting': meeting,
+            'attendees':attendees
+           
+    }
+    pdf = render_to_pdf('pdf/meeting_pdf.html', data)
+    if pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        filename = "Meeting_details_%s.pdf" %(meeting.title)
+        content = "inline; filename='%s'" %(filename)
+        download = request.GET.get("download")
+        if download:
+            content = "attachment; filename='%s'" %(filename)
+        response['Content-Disposition'] = content
+        return response
+    return HttpResponse("Not found")
+    
