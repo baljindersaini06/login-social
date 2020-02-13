@@ -119,7 +119,12 @@ urlpatterns=[
     # path('share_doc/<int:doc_id>/',views.share_doc,name='share_doc'),
    
     path('meetings/<int:cmp_id>/',views.meetings,name='meetings'),
+    path('meeting_list/<int:cmp_id>/',views.meeting_list,name='meeting'),
+    path('meeting_update/<int:m_id>/<int:cmp_id>',views.meeting_update,name='meeting_update'),
+    path('meeting_delete/<int:m_id>/<int:cmp_id>',views.meeting_delete,name='meeting_delete'),
+    path('meeting_details/<int:m_id>/<int:cmp_id>',views.meeting_details,name='meeting_details'),
 
+    # url(r'^attendees-autocomplete/$',views.AttendeesAutocomplete.as_view(),name='attendees-autocomplete',),
 
 
 

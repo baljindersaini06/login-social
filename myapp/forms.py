@@ -350,4 +350,4 @@ class Meeting_Form(forms.ModelForm):
     
     class Meta:
         model = Meeting
-        fields=('title','date_time','where','attendees','priority')
+        fields=('title','date_time','time','where','attendees','priority')
