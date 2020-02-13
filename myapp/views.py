@@ -1701,10 +1701,15 @@ def meetings(request,cmp_id):
             date_time=form.cleaned_data["date_time"]
             time=form.cleaned_data["time"]
             where=form.cleaned_data["where"]
-    
+            priority=form.cleaned_data["priority"]
+
             title=form.cleaned_data["title"]
             attendees=form.cleaned_data["attendees"]
-            a = form.save(commit=False)
+            attendees = request.POST.getlist('attendees')
+            a = Meeting.objects.create(title =title,time=time,date_time=date_time,where=where,priority=priority)       
+            for attendee in attendees:   
+                a.attendees.add(attendee) 
+                a.save()
             a.by = User.objects.get(pk=by.id)
             a.company_i = Company.objects.get(id=cmp_id)
             a.save()
@@ -1768,9 +1773,9 @@ def meeting_delete(request,m_id,cmp_id):
 
 def meeting_details(request,m_id,cmp_id):
     compdetail=Company.objects.get(id=cmp_id)
-    meet= Meeting.objects.get(id=m_id)
-    lt=Meeting.objects.filter(id=meet.id)
+    meet= Meeting.objects.get(id=m_id)    
     emp=meet.attendees.all()
+    lt=Meeting.objects.filter(id=meet.id)
     return render(request,'myapp/meeting_detail.html',{'meet':meet,'compdetail':compdetail,'lt':lt,'emp':emp})
 
 

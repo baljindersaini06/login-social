@@ -34,7 +34,7 @@
 </style>
 <div>
 <h3 class="page-title">
-    Package List <!--<small>user account page sample</small> -->
+    Meeting List <!--<small>user account page sample</small> -->
 
     <button class="add-button" type="button"><a style="text-decoration:none;color:white;" href="{% url 'meetings' compdetail.id  %}">Add Meeting</a></button> 
 
@@ -55,7 +55,7 @@
           <i class="fa fa-angle-right"></i>
       </li> -->
       <li>
-          <a href="">Package List</a>
+          <a href="">Meeting List</a>
       </li>
   </ul>
 </div>
@@ -64,9 +64,10 @@
 <table id="tes_table_com_pack" class="display table table-striped table-bordered" border="1" cellspacing="0" width="100%">
     <thead>
       <tr>
-        <th>name</th>
-        <th>When</th>
-        <th>Where</th>
+        <th>Title</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Venue</th>
         <th>By</th>
         <th>Edit/Delete</th>
         
@@ -76,7 +77,9 @@
       {% for l in meet %}
       <tr>
           <td><a href ="{% url 'meeting_details' l.id  l.company_i.id %}">{{ l.title }}</a></td>
-          <td>{{ l.date_time }} {{ l.time }}</td>
+          <td>{{ l.date_time }}</td>
+          <td>{{ l.time }}</td>
+
           <td>{{ l.where }}</td>
           <td>{{ l.by }}</td>
          
