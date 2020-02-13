@@ -433,21 +433,21 @@
                 <li>
 					<a href="{% url 'employeeview' compdetail.id %}">
 					<i class="icon-user"></i>
-					<span class="title">Employees List</span>
+					<span class="title">Employees List</span><span class="dot">{{ employee_count }}</span>
 					<!-- <span class="arrow "></span> -->
 					</a>
 				</li>
 				<li>
 					<a href="{% url 'locationn' compdetail.id %}">
 						<i class="fa fa-map-marker"></i>
-						<span class="title">Addresses</span>
+						<span class="title">Addresses</span><span class="dot">{{ loc_count }}</span>
 						<!-- <span class="arrow "></span> -->
 						</a>
 					</li>
 					<li>
 						<a href="{% url 'websitee' compdetail.id %}">
 							<i class="fa fa-desktop"></i>
-							<span class="title">Websites</span>
+							<span class="title">Websites</span><span class="dot">{{ web_count }}</span>
 							<!-- <span class="arrow "></span> -->
 							</a>
 
@@ -455,7 +455,7 @@
 						<li>
 							<a href="{% url 'licencelist' compdetail.id %}">
 								<i class="icon-docs"></i>
-								<span class="title">Licences</span>
+								<span class="title">Licences</span><span class="dot">{{ lic_count }}</span>
 								<!-- <span class="arrow "></span> -->
 								</a>
 							</li>	
@@ -464,7 +464,7 @@
 						<li>
 							<a href="{% url 'documentss' compdetail.id %}">
 								<i class="fa fa-file"></i>
-								<span class="title">Documents</span>
+								<span class="title">Documents</span><span class="dot">{{ doc_count }}</span>
 								<!-- <span class="arrow "></span> -->
 								</a>
 							</li>
@@ -479,21 +479,21 @@
 								<li>
 									<a href="{% url 'list_compack' compdetail.id %}">
 										<i class="fa fa-file"></i>
-										<span class="title">Packages</span>
+										<span class="title">Packages</span><span class="dot">{{ packs_count }}</span>
 										<!-- <span class="arrow "></span> -->
 										</a>
 									</li>
 								<li>
 								<a href="{% url 'device_list' compdetail.id %}">
 									<i class="fa fa-desktop"></i>
-									<span class="title">Devices</span>
+									<span class="title">Devices</span><span class="dot">{{ device_count }}</span>
 									<!-- <span class="arrow "></span> -->
 									</a>
 								</li>
 								<li>
 									<a href="{% url 'meeting' compdetail.id %}">
 										<i class="icon-users"></i>
-										<span class="title">Meetings</span>
+										<span class="title">Meetings</span><span class="dot">{{ meeting_count }}</span>
 										<!-- <span class="arrow "></span> -->
 										</a>
 									</li>

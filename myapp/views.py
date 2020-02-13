@@ -139,6 +139,7 @@ def company_employee_signup(request,cmp_id):
     packs_count=Company_package.objects.filter(companys_name=compdetail.id).count()
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
+    meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
 
 
 
@@ -172,7 +173,7 @@ def company_employee_signup(request,cmp_id):
     else:      
         form = SignUpForm()
         
-    return render(request, 'registration/company_employee_registration.html', {'form': form,'a':a,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count})
+    return render(request, 'registration/company_employee_registration.html', {'form': form,'a':a,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count})
 
 
 
@@ -684,6 +685,7 @@ def company_detail(request,id):
     packs_count=Company_package.objects.filter(companys_name=compdetail.id).count()
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
+    meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
 
 
 
@@ -706,7 +708,7 @@ def company_detail(request,id):
     # c=Location.objects.filter(company_id=compdetail.id)
     # print(c)
     # log = LogEntry.objects.select_related().all().order_by("id")            
-    return render(request, 'myapp/company_detail.html',{'compdetail':compdetail,'webs':webs,'loc': loc,'loc1':loc1,'logs':logs,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count})
+    return render(request, 'myapp/company_detail.html',{'compdetail':compdetail,'webs':webs,'loc': loc,'loc1':loc1,'logs':logs,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count})
 
 
 
@@ -735,13 +737,14 @@ def employeeview(request,id):
     packs_count=Company_package.objects.filter(companys_name=compdetail.id).count()
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
+    meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
 
 
     try:
         employee=Employee.objects.filter(company_name=id)
     except Employee.DoesNotExist:
         employee = None
-    return render(request,'myapp/employee_list.html',{'employee':employee,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count})
+    return render(request,'myapp/employee_list.html',{'employee':employee,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count})
 
 
 
@@ -760,8 +763,9 @@ def employee_detail(request,id):
     packs_count=Company_package.objects.filter(companys_name=compdetail.id).count()
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
-              
-    return render(request, 'myapp/employee_detail.html',{'empdetail':empdetail,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count})
+    meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
+          
+    return render(request, 'myapp/employee_detail.html',{'empdetail':empdetail,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count})
 
 
 
@@ -837,6 +841,7 @@ def employee_update(request,empdetail_id):
     packs_count=Company_package.objects.filter(companys_name=compdetail.id).count()
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
+    meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
   
     print(employee)
     if request.method == 'POST':
@@ -848,7 +853,7 @@ def employee_update(request,empdetail_id):
         emp_update_form = UpdateEmployeeInfo(instance=employee)
     return render(request, 'registration/employee_update1.html', {
 
-        'emp_update_form': emp_update_form,'employee':employee,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'emp':emp
+        'emp_update_form': emp_update_form,'employee':employee,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'emp':emp,'meeting_count':meeting_count
 
     })
 
@@ -961,8 +966,9 @@ def locationn(request,cmp_id):
     packs_count=Company_package.objects.filter(companys_name=compdetail.id).count()
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
+    meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
     
-    return render(request,'myapp/addresslist.html',{'loc':loc,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count})
+    return render(request,'myapp/addresslist.html',{'loc':loc,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count})
 
 
 
@@ -977,8 +983,9 @@ def location_detail(request,loc_id):
     packs_count=Company_package.objects.filter(companys_name=compdetail.id).count()
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
+    meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
 
-    return render(request,'myapp/location_detail.html',{'loc_detail':loc_detail,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count})
+    return render(request,'myapp/location_detail.html',{'loc_detail':loc_detail,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count})
 
 
 def location(request,cmp_id):
@@ -991,6 +998,7 @@ def location(request,cmp_id):
     packs_count=Company_package.objects.filter(companys_name=compdetail.id).count()
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
+    meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
 
 
 
@@ -1009,7 +1017,7 @@ def location(request,cmp_id):
           return HttpResponseRedirect(reverse('locationn',args=(cmp_id,)))
     else:
         form = LocationForm()
-    return render(request, 'myapp/location.html', {'form': form,'compdetail':compdetail,'countries':countries,'headquater':headquater,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count})
+    return render(request, 'myapp/location.html', {'form': form,'compdetail':compdetail,'countries':countries,'headquater':headquater,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count})
 
 
 
@@ -1023,9 +1031,10 @@ def websitee(request,cmp_id):
     packs_count=Company_package.objects.filter(companys_name=compdetail.id).count()
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
+    meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
 
     loc=Website.objects.filter(website_company_name=compdetail.id)    
-    return render(request,'myapp/websitelist.html',{'loc':loc,'compdetail':compdetail,'countries':countries,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count})
+    return render(request,'myapp/websitelist.html',{'loc':loc,'compdetail':compdetail,'countries':countries,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count})
 
 
 
@@ -1041,6 +1050,7 @@ def website(request,cmp_id):
     packs_count=Company_package.objects.filter(companys_name=compdetail.id).count()
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
+    meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
 
 
     try:
@@ -1058,7 +1068,7 @@ def website(request,cmp_id):
           return HttpResponseRedirect(reverse('websitee',args=(cmp_id,)))                 
     else:
         form = WebsiteForm()
-    return render(request, 'myapp/website.html', {'form': form,'website':website,'compdetail':compdetail,'headquater_website':headquater_website,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count})
+    return render(request, 'myapp/website.html', {'form': form,'website':website,'compdetail':compdetail,'headquater_website':headquater_website,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count})
 
 
 
@@ -1073,6 +1083,7 @@ def website_update(request,cmp_id,w_id):
     packs_count=Company_package.objects.filter(companys_name=compdetail.id).count()
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
+    meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
 
     a = WebsiteType.objects.all()
     webs=Website.objects.get(id=w_id)
@@ -1085,7 +1096,7 @@ def website_update(request,cmp_id,w_id):
     else:
         form = Website_UpdateForm(instance=webs)
     return render(request, 'myapp/website_update.html', {
-        'form': form,'webs':webs,'a':a,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count
+        'form': form,'webs':webs,'a':a,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count
     })
 
 
@@ -1131,6 +1142,7 @@ def company_location_update(request,location_id):
     packs_count=Company_package.objects.filter(companys_name=compdetail.id).count()
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
+    meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
 
   
     print(locupdate.company_id.id)
@@ -1142,7 +1154,7 @@ def company_location_update(request,location_id):
     else:
         loc_update_form = LocationUpdateForm(instance=locupdate)
     return render(request, 'myapp/location_update.html', {
-        'loc_update_form': loc_update_form,'locupdate':locupdate,'compdetail':compdetail,'countries':countries,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count
+        'loc_update_form': loc_update_form,'locupdate':locupdate,'compdetail':compdetail,'countries':countries,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count
     })
 
 
@@ -1169,6 +1181,7 @@ def licence(request,cmp_id):
     packs_count=Company_package.objects.filter(companys_name=compdetail.id).count()
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
+    meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
 
     lt=LicenceType.objects.all()
     if request.method == 'POST':
@@ -1180,7 +1193,7 @@ def licence(request,cmp_id):
           return HttpResponseRedirect(reverse('licencelist',args=(cmp_id,)))
     else:
         licence_form = LicenceForm()
-    return render(request, 'myapp/add_licence.html', {'licence_form': licence_form,'lt':lt,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count})
+    return render(request, 'myapp/add_licence.html', {'licence_form': licence_form,'lt':lt,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count})
 
 
 def licencelist(request,cmp_id):
@@ -1193,10 +1206,11 @@ def licencelist(request,cmp_id):
     packs_count=Company_package.objects.filter(companys_name=compdetail.id).count()
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
+    meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
 
 
     lic=Licence.objects.filter(company_id=cmp_id)
-    return render(request,'myapp/licence_list.html',{'lic':lic,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count})
+    return render(request,'myapp/licence_list.html',{'lic':lic,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count})
 
 
 
@@ -1211,8 +1225,9 @@ def licence_detail(request,lic_id):
     packs_count=Company_package.objects.filter(companys_name=compdetail.id).count()
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
+    meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
 
-    return render(request,'myapp/licence_detail.html',{'lic_detail':lic_detail,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count})
+    return render(request,'myapp/licence_detail.html',{'lic_detail':lic_detail,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count})
 
 
 def licence_delete(request,cmp_id,lic_id):
@@ -1233,6 +1248,7 @@ def licence_update(request,cmp_id,lic_id):
     packs_count=Company_package.objects.filter(companys_name=compdetail.id).count()
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
+    meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
 
     comp1=Company.objects.filter(id=cmp_id)
     a = LicenceType.objects.all()
@@ -1245,7 +1261,7 @@ def licence_update(request,cmp_id,lic_id):
     else:
         form = Licence_UpdateForm(instance=lic)
     return render(request, 'myapp/licence_update.html', {
-        'form': form,'lic':lic,'a':a,'compdetail':compdetail,'comp1':comp1,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count
+        'form': form,'lic':lic,'a':a,'compdetail':compdetail,'comp1':comp1,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count
     })
 
 
@@ -1262,9 +1278,10 @@ def documentss(request,cmp_id):
     packs_count=Company_package.objects.filter(companys_name=compdetail.id).count()
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
+    meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
 
     doc=Documents.objects.filter(compani_name=compdetail.id)
-    return render(request,'myapp/documents_list.html',{'doc':doc,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'doc_cat':doc_cat})
+    return render(request,'myapp/documents_list.html',{'doc':doc,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count,'doc_cat':doc_cat})
 
 
 
@@ -1280,6 +1297,7 @@ def documents(request,cmp_id):
     packs_count=Company_package.objects.filter(companys_name=compdetail.id).count()
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
+    meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
 
     b=request.user
     doc = Document_category.objects.all()
@@ -1296,7 +1314,7 @@ def documents(request,cmp_id):
             
     else:
         form = DocumentsForm()
-    return render(request, 'myapp/documents_list.html', {'form': form,'doc':doc,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count}) 
+    return render(request, 'myapp/documents_list.html', {'form': form,'doc':doc,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count}) 
 
 
 
@@ -1311,6 +1329,7 @@ def documents_file(request,doc_id):
     packs_count=Company_package.objects.filter(companys_name=compdetail.id).count()
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
+    meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
 
     if request.method == 'POST':
         form = DocumentsFileForm(request.POST, request.FILES)
@@ -1327,7 +1346,7 @@ def documents_file(request,doc_id):
             return HttpResponseRedirect(reverse('document_detail',args=(doc_id,)))          
     else:
         form = DocumentsFileForm()
-    return render(request, 'myapp/documents_file.html', {'form': form,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count}) 
+    return render(request, 'myapp/documents_file.html', {'form': form,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count}) 
 
 
 
@@ -1343,6 +1362,7 @@ def documents_links(request,doc_id):
     packs_count=Company_package.objects.filter(companys_name=compdetail.id).count()
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
+    meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
 
     if request.method == 'POST':
         form = DocumentsLinkForm(request.POST)
@@ -1355,7 +1375,7 @@ def documents_links(request,doc_id):
             return HttpResponseRedirect(reverse('document_detail',args=(doc_id,)))          
     else:
         form = DocumentsLinkForm()
-    return render(request, 'myapp/documents_links.html', {'form': form,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count}) 
+    return render(request, 'myapp/documents_links.html', {'form': form,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count}) 
 
 
 
@@ -1374,6 +1394,7 @@ def document_update(request,cmp_id,doc_id):
     packs_count=Company_package.objects.filter(companys_name=compdetail.id).count()
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
+    meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
 
     comp1=Company.objects.filter(id=cmp_id)
     doc_category = Document_category.objects.all()
@@ -1410,6 +1431,7 @@ def document_detail(request,doc_id):
     packs_count=Company_package.objects.filter(companys_name=compdetail.id).count()
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
+    meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
 
 
     url_text=request.build_absolute_uri()
@@ -1417,7 +1439,7 @@ def document_detail(request,doc_id):
     gmail_share_string=quote(url_text)
     print(gmail_share_string)
     share_string=quote(doc_detail.title)
-    return render(request,'myapp/document_detail.html',{'doc_detail':doc_detail,'files':files,'files_exists':files_exists,'links':links,'links_exists':links_exists,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'gmail_share_string':gmail_share_string,'share_string':share_string})
+    return render(request,'myapp/document_detail.html',{'doc_detail':doc_detail,'files':files,'files_exists':files_exists,'links':links,'links_exists':links_exists,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count,'gmail_share_string':gmail_share_string,'share_string':share_string})
 
 
 
@@ -1521,11 +1543,12 @@ def package_list(request,cmp_id):
     packs_count=Company_package.objects.filter(companys_name=compdetail.id).count()
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
+    meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
 
     packs=Company_package.objects.filter(companys_name=cmp_id).values('Package_selected')
     print(packs)
     pack=Package.objects.exclude(id__in=packs)
-    return render(request,'myapp/company_package.html',{'pack':pack,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count})   
+    return render(request,'myapp/company_package.html',{'pack':pack,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count})   
 
 
 
@@ -1540,6 +1563,7 @@ def add_package(request,cmp_id,p_id):
     packs_count=Company_package.objects.filter(companys_name=compdetail.id).count()
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
+    meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
 
     p=Package.objects.get(id=p_id)
     if request.method == 'POST':
@@ -1553,7 +1577,7 @@ def add_package(request,cmp_id,p_id):
             return HttpResponseRedirect(reverse('compack_details',args=(cmp_id,p_id)))            
     else:
         form = Company_package_Form()
-    return render(request, 'myapp/add_compackage.html', {'form': form,'p':p,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count})
+    return render(request, 'myapp/add_compackage.html', {'form': form,'p':p,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count})
 
 
 def compack_details(request,cmp_id,p_id):
@@ -1566,9 +1590,10 @@ def compack_details(request,cmp_id,p_id):
     packs_count=Company_package.objects.filter(companys_name=compdetail.id).count()
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
+    meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
 
     packs=Package.objects.get(id=p_id)
-    return render(request,'myapp/compack_details.html',{'packs':packs,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count}) 
+    return render(request,'myapp/compack_details.html',{'packs':packs,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count}) 
 
 
 def list_compack(request,cmp_id):  
@@ -1581,9 +1606,10 @@ def list_compack(request,cmp_id):
     packs_count=Company_package.objects.filter(companys_name=compdetail.id).count()
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
+    meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
 
     packs=Company_package.objects.filter(companys_name=cmp_id)
-    return render(request,'myapp/list_compack.html',{'packs':packs,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count}) 
+    return render(request,'myapp/list_compack.html',{'packs':packs,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count}) 
 
 
 def compackage_delete(request,cmp_id,p_id):
@@ -1604,6 +1630,7 @@ def add_device(request,cmp_id):
     packs_count=Company_package.objects.filter(companys_name=compdetail.id).count()
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
+    meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
 
     device_type=DeviceType.objects.all()
     device_location=Location.objects.filter(company_id=cmp_id)
@@ -1618,7 +1645,7 @@ def add_device(request,cmp_id):
             return HttpResponseRedirect(reverse('device_list',args=(cmp_id,)))                    
     else:
         deviceform = DeviceForm()
-    return render(request, 'myapp/add_device.html', {'deviceform': deviceform,'device_type':device_type,'device_location':device_location,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count})
+    return render(request, 'myapp/add_device.html', {'deviceform': deviceform,'device_type':device_type,'device_location':device_location,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count})
 
 
 def device_list(request,cmp_id):
@@ -1631,12 +1658,13 @@ def device_list(request,cmp_id):
     packs_count=Company_package.objects.filter(companys_name=compdetail.id).count()
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
+    meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
 
     try:
         device=Device.objects.filter(company_id=cmp_id)
     except Device.DoesNotExist:
         device = None
-    return render(request,'myapp/device_list.html',{'device':device,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count})
+    return render(request,'myapp/device_list.html',{'device':device,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count})
 
 
 
@@ -1651,8 +1679,9 @@ def device_detail(request,device_id):
     packs_count=Company_package.objects.filter(companys_name=compdetail.id).count()
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
+    meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
 
-    return render(request,'myapp/device_detail.html',{'device_detail':device_detail,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count})
+    return render(request,'myapp/device_detail.html',{'device_detail':device_detail,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count})
 
 
 def device_delete(request,device_id,cmp_id):
@@ -1672,6 +1701,7 @@ def device_update(request,device_id,cmp_id):
     packs_count=Company_package.objects.filter(companys_name=compdetail.id).count()
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
+    meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
 
     comp=Company.objects.filter(id=cmp_id)
     dev=Device.objects.get(id=device_id)
@@ -1683,7 +1713,7 @@ def device_update(request,device_id,cmp_id):
     else:
         dev_form = Device_UpdateForm(instance=dev)
     return render(request, 'myapp/device_update.html', {
-        'dev_form': dev_form,'dev':dev,'compdetail':compdetail,'comp':comp,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count
+        'dev_form': dev_form,'dev':dev,'compdetail':compdetail,'comp':comp,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count
     })
 
 
@@ -1708,7 +1738,17 @@ def device_update(request,device_id,cmp_id):
 
 
 def meetings(request,cmp_id):
-    compdetail=Company.objects.get(id=cmp_id)  
+    compdetail=Company.objects.get(id=cmp_id) 
+
+    loc_count=Location.objects.filter(company_id=compdetail.id).count()
+    web_count=Website.objects.filter(website_company_name=compdetail.id).count()
+    lic_count=Licence.objects.filter(company_id=compdetail.id).count()
+    doc_count=Documents.objects.filter(compani_name=compdetail.id).count()
+    packs_count=Company_package.objects.filter(companys_name=compdetail.id).count()
+    device_count=Device.objects.filter(company_id=compdetail.id).count()
+    employee_count=Employee.objects.filter(company_name=compdetail.id).count()
+    meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
+ 
     by=request.user
     lt=Employee.objects.filter(company_name=cmp_id)
     if request.method == 'POST':
@@ -1746,7 +1786,7 @@ def meetings(request,cmp_id):
             
     else:
         form = Meeting_Form()
-    return render(request, 'myapp/meeting.html', {'form': form,'compdetail':compdetail,'lt':lt})
+    return render(request, 'myapp/meeting.html', {'form': form,'compdetail':compdetail,'lt':lt,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count})
 
 
 
@@ -1754,15 +1794,35 @@ def meetings(request,cmp_id):
 
 
 def meeting_list(request,cmp_id):
-    compdetail=Company.objects.get(id=cmp_id)  
+    compdetail=Company.objects.get(id=cmp_id)
+
+    loc_count=Location.objects.filter(company_id=compdetail.id).count()
+    web_count=Website.objects.filter(website_company_name=compdetail.id).count()
+    lic_count=Licence.objects.filter(company_id=compdetail.id).count()
+    doc_count=Documents.objects.filter(compani_name=compdetail.id).count()
+    packs_count=Company_package.objects.filter(companys_name=compdetail.id).count()
+    device_count=Device.objects.filter(company_id=compdetail.id).count()
+    employee_count=Employee.objects.filter(company_name=compdetail.id).count()
+    meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
+
     meet=Meeting.objects.filter(company_i=compdetail.id)
-    return render(request,'myapp/meeting_list.html',{'meet':meet,'compdetail':compdetail})  
+    return render(request,'myapp/meeting_list.html',{'meet':meet,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count})  
 
 
   
 
 def meeting_update(request,m_id,cmp_id):
     compdetail=Company.objects.get(id=cmp_id)
+
+    loc_count=Location.objects.filter(company_id=compdetail.id).count()
+    web_count=Website.objects.filter(website_company_name=compdetail.id).count()
+    lic_count=Licence.objects.filter(company_id=compdetail.id).count()
+    doc_count=Documents.objects.filter(compani_name=compdetail.id).count()
+    packs_count=Company_package.objects.filter(companys_name=compdetail.id).count()
+    device_count=Device.objects.filter(company_id=compdetail.id).count()
+    employee_count=Employee.objects.filter(company_name=compdetail.id).count()
+    meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
+
     meet=Meeting.objects.get(id=m_id)
     emp1=meet.attendees.values('id')
     emp_id_list = [e["id"] for e in emp1]
@@ -1777,7 +1837,7 @@ def meeting_update(request,m_id,cmp_id):
     else:
         form = Meeting_Form(instance=meet)
     return render(request, 'myapp/meeting_update.html', {
-        'form': form,'meet':meet,'compdetail':compdetail,'lt':lt,'emp':emp
+        'form': form,'meet':meet,'compdetail':compdetail,'lt':lt,'emp':emp,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count
 
     })
 
@@ -1790,10 +1850,20 @@ def meeting_delete(request,m_id,cmp_id):
 
 def meeting_details(request,m_id,cmp_id):
     compdetail=Company.objects.get(id=cmp_id)
+
+    loc_count=Location.objects.filter(company_id=compdetail.id).count()
+    web_count=Website.objects.filter(website_company_name=compdetail.id).count()
+    lic_count=Licence.objects.filter(company_id=compdetail.id).count()
+    doc_count=Documents.objects.filter(compani_name=compdetail.id).count()
+    packs_count=Company_package.objects.filter(companys_name=compdetail.id).count()
+    device_count=Device.objects.filter(company_id=compdetail.id).count()
+    employee_count=Employee.objects.filter(company_name=compdetail.id).count()
+    meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
+
     meet= Meeting.objects.get(id=m_id)    
     emp=meet.attendees.all()
     lt=Meeting.objects.filter(id=meet.id)
-    return render(request,'myapp/meeting_detail.html',{'meet':meet,'compdetail':compdetail,'lt':lt,'emp':emp})
+    return render(request,'myapp/meeting_detail.html',{'meet':meet,'compdetail':compdetail,'lt':lt,'emp':emp,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count})
 
 
 # class AttendeesAutocomplete(autocomplete.Select2QuerySetView):
@@ -1830,3 +1900,5 @@ def generate_meeting_pdf(request,m_id):
         return response
     return HttpResponse("Not found")
     
+
+
