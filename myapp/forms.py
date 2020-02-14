@@ -294,6 +294,7 @@ class Licence_UpdateForm(forms.ModelForm):
 
 
 class DocumentsForm(forms.ModelForm):
+
     class Meta:
         model = Documents
         fields = ('compani_name','document_category_id','name','title','content')        

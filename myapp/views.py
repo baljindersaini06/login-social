@@ -1301,7 +1301,7 @@ def documents(request,cmp_id):
 
     b=request.user
     doc = Document_category.objects.all()
-    if request.method == 'POST':
+    if request.method == 'POST' and 'btn' in request.POST:
         form = DocumentsForm(request.POST, request.FILES)
         print("addsa")
         if form.is_valid():
@@ -1311,6 +1311,9 @@ def documents(request,cmp_id):
             a.d_by = User.objects.get(pk=b.id)
             a.save()
             return HttpResponseRedirect(reverse('documentss',args=(cmp_id,)))
+        else:
+            return HttpResponseRedirect(reverse('documentss',args=(cmp_id,)))
+            
             
     else:
         form = DocumentsForm()
