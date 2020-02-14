@@ -1905,3 +1905,31 @@ def generate_meeting_pdf(request,m_id):
     
 
 
+
+
+def employee_meeting(request,id):
+    empdetail=Employee.objects.get(id=id)
+    compdetail=Company.objects.get(id=empdetail.company_name.id)
+    meet= Meeting.objects.filter(attendees=empdetail.id)
+    return render(request,'myapp/employee_meetings.html',{'meet':meet,'compdetail':compdetail,'empdetail':empdetail})
+
+
+# def employee_meeting_details(request,id):
+#     empdetail=Employee.objects.get(id=id)
+#     print(empdetail)
+#     compdetail=Company.objects.get(id=empdetail.company_name.id)
+#     meet= Meeting.objects.get(id=id)    
+#     # emp=meet.attendees.all()
+#     lt=Meeting.objects.filter(id=meet.id)
+#     return render(request,'myapp/employee_meetings_details.html',{'meet':meet,'compdetail':compdetail,'empdetail':empdetail})
+
+
+
+
+def employee_meeting_details(request,m_id,id):
+    empdetail=Employee.objects.get(id=id)
+    compdetail=Company.objects.get(id=empdetail.company_name.id)
+    meet= Meeting.objects.get(id=m_id)    
+    emp=meet.attendees.all()
+    lt=Meeting.objects.filter(id=meet.id)
+    return render(request,'myapp/employee_meetings_details.html',{'meet':meet,'compdetail':compdetail,'empdetail':empdetail,'lt':lt,'emp':emp,})

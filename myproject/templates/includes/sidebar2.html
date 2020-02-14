@@ -508,7 +508,14 @@
 								<p style="color:red;">Employee Name:{{ empdetail.employee_name }}</p>
 
 							</li>
-
+							<li>
+							<a href="{% url 'employee_meetings' empdetail.id %}">
+								<i class="icon-users"></i>
+								<span class="title">Meetings</span>
+								
+								<!-- <span class="arrow "></span> -->
+								</a>
+							</li>
 								
 								{% endif %}
 					<!-- <ul class="sub-menu">
