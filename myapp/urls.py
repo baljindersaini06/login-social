@@ -24,12 +24,14 @@ urlpatterns=[
     path('test_group',views.test_group, name='test_group'),
     path('test_package',views.test_package, name='test_package'),
     path('test_location',views.test_location, name='test_location'),
+    path('test_location_update',views.test_location_update, name='test_location_update'),
     path('test_website',views.test_website, name='test_website'),
     path('test_website_url',views.test_website_url, name='test_website_url'),
     path('test_licence_key',views.test_licence_key, name='test_licence_key'),
     path('test_document',views.test_document, name='test_document'),
     path('test_device_url',views.test_device_url, name='test_device_url'),
     path('test_meeting',views.test_meeting, name='test_meeting'),
+    
 
 
     #path('user_registration', views.userre, name='user_registration'),
@@ -63,17 +65,14 @@ urlpatterns=[
     path('group_delete/<int:id>',views.group_delete,name='group_delete'),
     path('user_update/<int:user_id>',views.user_update,name='user_update'),
     path('location/<int:cmp_id>/',views.location,name='location'),
-    # path('locationlist/<int:cmp_id>/',views.locationlist,name='locationlist'),
-    # path('location_view/',views.location_view,name='location_view'),
     path('website/<int:cmp_id>/',views.website,name='website'),
-    # path('employee_info/<int:id>/',views.employee_info,name='employee_info'),
     path('employee_update/<int:empdetail_id>/',views.employee_update,name='employee_update'),
     path('user_employee_update/<int:empdetail_id>/',views.user_employee_update,name='user_employee_update'),
     path('locationn/<int:cmp_id>/',views.locationn,name='locationn'),
-    path('location_detail/<int:loc_id>',views.location_detail,name='location_detail'),
+    path('location_detail/<int:cmp_id>/<int:loc_id>',views.location_detail,name='location_detail'),
 
-    path('company_location_update/<int:location_id>',views.company_location_update,name='company_location_update'),
-    path('company_location_delete/<int:location_id>',views.company_location_delete,name='company_location_delete'),
+    path('company_location_update/<int:cmp_id>/<int:location_id>',views.company_location_update,name='company_location_update'),
+    path('company_location_delete/<int:cmp_id>/<int:location_id>',views.company_location_delete,name='company_location_delete'),
     path('employee_delete/<int:emp_id>/',views.employee_delete,name='employee_delete'),
 
     path('websitee/<int:cmp_id>/',views.websitee,name='websitee'),
@@ -118,7 +117,6 @@ urlpatterns=[
     path('device_delete/<int:device_id>/<int:cmp_id>/',views.device_delete,name='device_delete'),
     path('device_update/<int:device_id>/<int:cmp_id>/',views.device_update,name='device_update'),
 
-    # path('share_doc/<int:doc_id>/',views.share_doc,name='share_doc'),
    
     path('meetings/<int:cmp_id>/',views.meetings,name='meetings'),
     path('meeting_list/<int:cmp_id>/',views.meeting_list,name='meeting'),

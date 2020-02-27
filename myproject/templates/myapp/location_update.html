@@ -43,7 +43,7 @@
                             <i class="icon-globe theme-font hide"></i>
                             <span class="caption-subject font-blue-madison bold uppercase" align="center">Update Location</span>
                         </div><br><br><br>
-<form action="" method="POST" id="login-form">
+<form action="" method="POST" id="login-form" name="address_update">
     {% csrf_token %}
     
     <div class="form-group">
@@ -81,12 +81,25 @@
     </div>
     <div class="form-group">
         <label class="control-label">Is A Headquater</label>
-        <input type="text" name="is_headquater" id="is_headquater"  value="{{ locupdate.is_headquater }}"  class="form-control"/>
+        {% if headquater %}
+        <input type="checkbox" name="is_headquater" id="is_headquater"   value="{{ locupdate.is_headquater }}" class="form-control"  checked />
+        {% else %}
+        <input type="checkbox" name="is_headquater" id="is_headquater"   class="form-control"   />
+        {% endif %}
     </div>
-    <div class="form-group">
+  <div class="form-group">
+        <label class="control-label">Is Off Hours Accessible</label>
+    {% if Offhours %}
+    <input type="checkbox" name="is_off_hours_accessible" id="is_off_hours_accessible"  value="{{ locupdate.is_off_hours_accessible }}"  class="form-control"  checked />
+    {% else %}
+    <input type="checkbox" name="is_off_hours_accessible" id="is_off_hours_accessible"  class="form-control"/>
+    {% endif %}
+</div>
+
+    <!-- <div class="form-group">
         <label class="control-label">Is Off Hours Accessible</label>
         <input type="text" name="is_off_hours_accessible" id="is_off_hours_accessible"  value="{{ locupdate.is_off_hours_accessible }}"  class="form-control"/>
-    </div>
+    </div> -->
     <div class="margin-top-10">
         <input class="btn green-haze" type="submit" name="btnform2" />
         <a href="" class="btn default">

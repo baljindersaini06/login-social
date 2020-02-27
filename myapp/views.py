@@ -11,7 +11,6 @@ from django.contrib import messages
 from django.shortcuts import render_to_response
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
 from myapp.models import User
 from django.contrib.auth import update_session_auth_hash
 from django.template.response import TemplateResponse
@@ -41,6 +40,7 @@ from django.contrib.auth.models import Permission
 from django.contrib.admin.models import LogEntry
 from django_countries import countries
 from django.views.generic import View
+import datetime
 
 from myapp.utils import render_to_pdf
 from django.template.loader import get_template
@@ -206,7 +206,7 @@ def setpassword(request,uid, backend='django.contrib.auth.backends.ModelBackend'
             query_set = Group.objects.filter(user = request.user)
             for g in query_set:
             # this should print all group names for the user
-                print(g.id)
+                print(g)
                 if g.name == "Company Admin": 
                     return redirect('add_employee')
                 elif g.name == "Company Employee":
@@ -478,10 +478,18 @@ def test_location(request):
     response_str = "true"
     if request.is_ajax():
         location_name = request.GET.get("location_name")
+        
         location_exists = Location.objects.filter(location_name=location_name).exists()
         print(location_exists)
         if (location_exists == True):
             response_str = "false"
+        return HttpResponse(response_str)
+
+def test_location_update(request):
+    response_str = "false"
+    if request.is_ajax():
+        is_headquater = request.GET.get("is_headquater")
+        headquater_exists = Location.objects.filter(is_headquater='True').exists()
         return HttpResponse(response_str)
 
 
@@ -546,13 +554,19 @@ def test_device_url(request):
 
 def test_meeting(request):
     response_str = "true"
+    today=datetime.date.today()
+    a=today.strftime('%m/%d/%Y')
     if request.is_ajax():
         title = request.GET.get("title")
+        date_time = request.GET.get("date_time")
         meeting_exists = Meeting.objects.filter(title=title).exists()
-        print(meeting_exists)
+        if str(date_time) < str(a):
+             response_str = "false"
         if (meeting_exists == True):
-            response_str = "false"
+            response_str = "false"   
         return HttpResponse(response_str)
+
+ 
 
 
 @login_required
@@ -570,73 +584,16 @@ def create_company(request):
         compform = CompanyForm()
     return render(request, 'registration/company_registration.html', {'compform': compform})
 
-# @login_required
-# @user_passes_test(lambda u: u.is_superuser)
-# @group_required(('HR','Admin'))
-# def create_employee(request):
-#     com = Company.objects.all()
-
-#     if request.method == "POST":
-#         form2 = EmployeeForm(request.POST)
-#         if form2.is_valid():
-#             print("hello")
-#             form2.save()
-#             return HttpResponseRedirect(reverse('companyview'))
-
-#     else:
-#         form2 = EmployeeForm()
-#     return render(request, 'registration/employee_registration.html', {'form2': form2,'com':com})
-
 
   
-# def user_update(request):
-#     return render(request, 'myapp/profile.html')
-
-# def siteupdate(request):
-#     if Site.objects.filter(user=username).exists():
-#     if request.method == 'POST':
-#         site_profile_form = UpdateSiteForm(request.POST, request.FILES , instance=request.user.site)
-        
-#         if site_profile_form.is_valid():
-           
-#             site_profile_form.save()            
-#             return HttpResponseRedirect(reverse('success'))
-        
-#     else:
-#         site_profile_form = UpdateSiteForm(instance=request.user)
-#     return render(request, 'profile_tabs/updatesite.html', {
-#         'site_profile_form': site_profile_form,
-       
-#     })
 
 
-# @login_required
-# def update_profile(request):
-#     if request.method == 'POST':
-#         user_form = ImageForm(request.POST, request.FILES , instance=request.user)
-        
-#         if (user_form.is_valid()):
-           
-#             user_form.save()            
-#             return HttpResponseRedirect(reverse('profile_account'))
-        
-#     else:
-#         user_form = ImageForm(instance=request.user)
-#     return render(request, 'profile_tabs/change_avtar.html', {
-#         'user_form': user_form
-#     })
 
 
-# @login_required
-# def user_update(request, template_name='myapp/extra_profile_account.html'):
-#     # user= get_object_or_404(User)
-#     print("Helloo")
-#     fform = UserForm(request.POST, instance=request.user)
-#     if fform.is_valid():
-#         fform.save()
-#         return redirect('profile_account')
-#     return render(request, template_name, {'fform':fform})
 
+
+
+@login_required
 def companyview(request):
     test_all = Company.objects.all().values('id','company_name', 'description', 'company_website', 'company_address__location_name')
     data={"data": list(test_all)}
@@ -649,6 +606,9 @@ def company_view(request):
     return render(request, 'myapp/company_list.html')
 
 
+
+
+@login_required
 def userview(request):
     test_all = User.objects.all().values('id','first_name','last_name', 'username', 'email', 'phone_no', 'groups__name').exclude(is_superuser=True)
     data={"data": list(test_all)}
@@ -660,6 +620,8 @@ def user_view(request):
     return render(request, 'myapp/user_list.html')
 
 
+
+@login_required
 def user_delete(request,id):
     print("delete")
     c = User.objects.get(id=id)
@@ -670,14 +632,9 @@ def user_delete(request,id):
 
 
 
-
+@login_required
 def company_detail(request,id):
-    # from datetime import datetime
-    # now = datetime.today().date()
-    # print(now)
     compdetail=Company.objects.get(id=id)
-
-    
     loc_count=Location.objects.filter(company_id=compdetail.id).count()
     web_count=Website.objects.filter(website_company_name=compdetail.id).count()
     lic_count=Licence.objects.filter(company_id=compdetail.id).count()
@@ -686,21 +643,16 @@ def company_detail(request,id):
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
     meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
-
-
-
-
     try:
         webs=Website.objects.filter(website_company_name=compdetail.id,is_headquater_website=True)
     except Website.DoesNotExist:
         webs = None        
     try:
-        loc=[Location.objects.filter(company_id=compdetail.id,is_headquater=True).latest('id')]
+        loc=[Location.objects.filter(company_id=compdetail.id,is_headquater=True).latest('is_headquater')]
     except Location.DoesNotExist:
         loc = None 
-    # logs = LogEntry.objects.select_related().filter(user=request.user) 
-    # print(id)
-    logs = LogEntry.objects.order_by('-action_time')    
+      
+    logs = LogEntry.objects.select_related().filter(user=request.user).order_by('-action_time')[:5]    
     try:
         loc1=Location.objects.filter(company_id=compdetail.id)
     except Location.DoesNotExist:
@@ -725,7 +677,7 @@ def company_detail(request,id):
 #     return render(request, 'myapp/employee_list.html')
 
 
-
+@login_required
 def employeeview(request,id):
     compdetail=Company.objects.get(id=id)
 
@@ -747,7 +699,7 @@ def employeeview(request,id):
     return render(request,'myapp/employee_list.html',{'employee':employee,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count})
 
 
-
+@login_required
 def employee_detail(request,id): 
     try:
         empdetail=Employee.objects.get(id=id)
@@ -769,30 +721,9 @@ def employee_detail(request,id):
 
 
 
-# @login_required
-# @user_passes_test(lambda u: u.is_superuser)
-# @group_required(('HR','Admin'))
-# def employee_info(request,id):
-#     userinfo=User.objects.get(id=id)
-#     print(userinfo.phone_no)
-#     if request.method == "POST":
-#         empinfo = EmployeeInfoForm(request.POST)
-#         if empinfo.is_valid():
-#             print("hello")
-#             empinfo.save(commit=False)
-#             ee.employee_name=userinfo
-#             ee.phone_number=userinfo.phone_no
-#             ee.employee_email=userinfo.email
-
-#             ee.save()
-#             return HttpResponseRedirect(reverse('employee_detail',args=(id,)))
-
-#     else:
-#         empinfo = EmployeeInfoForm()
-#     return render(request, 'myapp/employee_info.html', {'empinfo': empinfo,'userinfo':userinfo})
 
 
-
+@login_required
 def user_update(request,user_id, template_name='myapp/edit_user.html'):
     user=User.objects.get(id=user_id)
     user= get_object_or_404(User,id=user_id)
@@ -809,7 +740,7 @@ def user_update(request,user_id, template_name='myapp/edit_user.html'):
 
 
 
-
+@login_required
 def company_update(request, pk, template_name='myapp/edit_company2.html'):
     company= get_object_or_404(Company, pk=pk)
     form = CompanyForm(request.POST or None, request.FILES, instance=company)
@@ -819,7 +750,7 @@ def company_update(request, pk, template_name='myapp/edit_company2.html'):
     return render(request, template_name, {'form':form, 'company':company})
 
 
-
+@login_required
 def company_delete(request,id):
     print("delete")
     b = Company.objects.get(id=id)
@@ -827,13 +758,12 @@ def company_delete(request,id):
     b.delete()     
     return HttpResponseRedirect(reverse('companyview'))
 
-# @login_required
+@login_required
 def employee_update(request,empdetail_id):
+    empdetail=Employee.objects.get(id=empdetail_id)
     employee=Employee.objects.get(id=empdetail_id)
     compdetail=Company.objects.get(id=employee.company_name.id)
     emp=Device.objects.all()
-
-
     loc_count=Location.objects.filter(company_id=compdetail.id).count()
     web_count=Website.objects.filter(website_company_name=compdetail.id).count()
     lic_count=Licence.objects.filter(company_id=compdetail.id).count()
@@ -842,8 +772,6 @@ def employee_update(request,empdetail_id):
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
     meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
-  
-    print(employee)
     if request.method == 'POST':
         emp_update_form = UpdateEmployeeInfo(request.POST, instance=employee)
         if (emp_update_form.is_valid()):
@@ -853,7 +781,7 @@ def employee_update(request,empdetail_id):
         emp_update_form = UpdateEmployeeInfo(instance=employee)
     return render(request, 'registration/employee_update1.html', {
 
-        'emp_update_form': emp_update_form,'employee':employee,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'emp':emp,'meeting_count':meeting_count
+        'emp_update_form': emp_update_form,'employee':employee,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'emp':emp,'meeting_count':meeting_count,'empdetail':empdetail
 
     })
 
@@ -972,10 +900,9 @@ def locationn(request,cmp_id):
 
 
 
-def location_detail(request,loc_id):
+def location_detail(request,cmp_id,loc_id):
     loc_detail=Location.objects.get(id=loc_id)
-    compdetail=Company.objects.get(id=loc_detail.company_id.id)
-
+    compdetail=Company.objects.get(id=cmp_id)
     loc_count=Location.objects.filter(company_id=compdetail.id).count()
     web_count=Website.objects.filter(website_company_name=compdetail.id).count()
     lic_count=Licence.objects.filter(company_id=compdetail.id).count()
@@ -984,7 +911,6 @@ def location_detail(request,loc_id):
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
     meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
-
     return render(request,'myapp/location_detail.html',{'loc_detail':loc_detail,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count})
 
 
@@ -999,12 +925,8 @@ def location(request,cmp_id):
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
     meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
-
-
-
     try:
         headquater = Location.objects.filter(company_id=cmp_id,is_headquater=True).exists()
-        print(headquater)
     except Location.DoesNotExist:
         headquater = None
     countries = Country.objects.all()
@@ -1021,6 +943,54 @@ def location(request,cmp_id):
 
 
 
+def company_location_update(request,cmp_id,location_id):
+    compdetail=Company.objects.get(id=cmp_id)
+    countries = Country.objects.all()
+    locupdate=Location.objects.get(id=location_id)
+    compdetail=Company.objects.get(id=locupdate.company_id.id)
+    loc_count=Location.objects.filter(company_id=compdetail.id).count()
+    web_count=Website.objects.filter(website_company_name=compdetail.id).count()
+    lic_count=Licence.objects.filter(company_id=compdetail.id).count()
+    doc_count=Documents.objects.filter(compani_name=compdetail.id).count()
+    packs_count=Company_package.objects.filter(companys_name=compdetail.id).count()
+    device_count=Device.objects.filter(company_id=compdetail.id).count()
+    employee_count=Employee.objects.filter(company_name=compdetail.id).count()
+    meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
+
+  
+    try:
+        headquater = Location.objects.filter(company_id=cmp_id,is_headquater=True).exists()
+    except Location.DoesNotExist:
+        headquater = None
+    Offhours = Location.objects.filter(company_id=cmp_id,is_off_hours_accessible=True).exists()
+    
+    if request.method == 'POST':
+        loc_update_form = LocationUpdateForm(request.POST, instance=locupdate)
+        if (loc_update_form.is_valid()):
+            loc_update_form.save() 
+            is_headquater = request.POST.getlist('is_headquater')
+            is_off_hours_accessible = request.POST.getlist('is_off_hours_accessible')
+     
+            return HttpResponseRedirect(reverse('locationn',args=(cmp_id,))) 
+    else:
+        loc_update_form = LocationUpdateForm(instance=locupdate)
+    return render(request, 'myapp/location_update.html', {
+        'loc_update_form': loc_update_form,'locupdate':locupdate,'compdetail':compdetail,'countries':countries,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count,'headquater':headquater,'Offhours':Offhours
+    })
+
+
+
+
+
+def company_location_delete(request,cmp_id,location_id):
+        locdelete = Location.objects.get(id=location_id)
+        locdelete.delete()    
+        messages.success(request, "location is deleted")  
+        return HttpResponseRedirect(reverse('locationn',args=(cmp_id,)))
+
+
+
+# <-------------website module------->
 def websitee(request,cmp_id):
     compdetail=Company.objects.get(id=cmp_id)
 
@@ -1110,67 +1080,8 @@ def website_delete(request,cmp_id,w_id):
 
 
 
-
-
-# @login_required
-# @user_passes_test(lambda u: u.is_superuser)
-# @group_required(('HR','Admin'))
-# def addwebsite(request):
-#     web = WebsiteType.objects.all()
-#     compp=Company.objects.all()
-#     if request.method == "POST":
-#         webform = WebsiteForm(request.POST)
-#         if webform.is_valid():
-#             print("hello")
-#             webform.save()
-#             return HttpResponseRedirect(reverse('dashboard'))
-
-#     else:
-#         webform = WebsiteForm()
-#     return render(request, 'myapp/addwebsite.html', {'webform': webform,'web':web,'compp':compp})
-
-
-def company_location_update(request,location_id):
-    countries = Country.objects.all()
-    locupdate=Location.objects.get(id=location_id)
-    compdetail=Company.objects.get(id=locupdate.company_id.id)
-
-    loc_count=Location.objects.filter(company_id=compdetail.id).count()
-    web_count=Website.objects.filter(website_company_name=compdetail.id).count()
-    lic_count=Licence.objects.filter(company_id=compdetail.id).count()
-    doc_count=Documents.objects.filter(compani_name=compdetail.id).count()
-    packs_count=Company_package.objects.filter(companys_name=compdetail.id).count()
-    device_count=Device.objects.filter(company_id=compdetail.id).count()
-    employee_count=Employee.objects.filter(company_name=compdetail.id).count()
-    meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
-
-  
-    print(locupdate.company_id.id)
-    if request.method == 'POST':
-        loc_update_form = LocationUpdateForm(request.POST, instance=locupdate)
-        if (loc_update_form.is_valid()):
-            loc_update_form.save()            
-            return HttpResponseRedirect(reverse('locationn',args=(compdetail.id,))) 
-    else:
-        loc_update_form = LocationUpdateForm(instance=locupdate)
-    return render(request, 'myapp/location_update.html', {
-        'loc_update_form': loc_update_form,'locupdate':locupdate,'compdetail':compdetail,'countries':countries,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count
-    })
-
-
-
-
-
-def company_location_delete(request,location_id):
-
-        locdelete = Location.objects.get(id=location_id)
-        locdelete.delete()    
-        messages.success(request, "location is deleted")  
-        return HttpResponseRedirect(reverse('locationn',args=(location_id,)))
-
-
-
-
+# <---------licence module--------->
+@login_required
 def licence(request,cmp_id):
     compdetail=Company.objects.get(id=cmp_id)
 
@@ -1198,7 +1109,6 @@ def licence(request,cmp_id):
 
 def licencelist(request,cmp_id):
     compdetail=Company.objects.get(id=cmp_id)
-
     loc_count=Location.objects.filter(company_id=compdetail.id).count()
     web_count=Website.objects.filter(website_company_name=compdetail.id).count()
     lic_count=Licence.objects.filter(company_id=compdetail.id).count()
@@ -1207,17 +1117,14 @@ def licencelist(request,cmp_id):
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
     meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
-
-
     lic=Licence.objects.filter(company_id=cmp_id)
     return render(request,'myapp/licence_list.html',{'lic':lic,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count})
 
 
-
+@login_required
 def licence_detail(request,lic_id):
     lic_detail=Licence.objects.get(id=lic_id)
     compdetail=Company.objects.get(id=lic_detail.company_id.id)
-
     loc_count=Location.objects.filter(company_id=compdetail.id).count()
     web_count=Website.objects.filter(website_company_name=compdetail.id).count()
     lic_count=Licence.objects.filter(company_id=compdetail.id).count()
@@ -1226,10 +1133,9 @@ def licence_detail(request,lic_id):
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
     meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
-
     return render(request,'myapp/licence_detail.html',{'lic_detail':lic_detail,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count})
 
-
+@login_required
 def licence_delete(request,cmp_id,lic_id):
 
         b = Licence.objects.get(id=lic_id)
@@ -1237,10 +1143,9 @@ def licence_delete(request,cmp_id,lic_id):
         messages.success(request, "The user is deleted")  
         return HttpResponseRedirect(reverse('licencelist',args=(cmp_id,)))
 
-
+@login_required
 def licence_update(request,cmp_id,lic_id):
     compdetail=Company.objects.get(id=cmp_id)
-
     loc_count=Location.objects.filter(company_id=compdetail.id).count()
     web_count=Website.objects.filter(website_company_name=compdetail.id).count()
     lic_count=Licence.objects.filter(company_id=compdetail.id).count()
@@ -1267,7 +1172,7 @@ def licence_update(request,cmp_id,lic_id):
 
 
 
-
+# <---------document module---------->
 def documentss(request,cmp_id):
     compdetail=Company.objects.get(id=cmp_id)
     doc_cat = Document_category.objects.all()
@@ -1286,7 +1191,7 @@ def documentss(request,cmp_id):
 
 
 
-
+@login_required
 def documents(request,cmp_id):
     compdetail=Company.objects.get(id=cmp_id)
 
@@ -1386,7 +1291,7 @@ def documents_links(request,doc_id):
 
 
 
-
+@login_required
 def document_update(request,cmp_id,doc_id):
     compdetail=Company.objects.get(id=cmp_id)
 
@@ -1426,7 +1331,6 @@ def document_detail(request,doc_id):
 
     links=Document_Links.objects.filter(document=doc_detail.id)
     links_exists=Document_Links.objects.filter(document=doc_detail.id).exists()
-
     loc_count=Location.objects.filter(company_id=compdetail.id).count()
     web_count=Website.objects.filter(website_company_name=compdetail.id).count()
     lic_count=Licence.objects.filter(company_id=compdetail.id).count()
@@ -1435,8 +1339,6 @@ def document_detail(request,doc_id):
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
     meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
-
-
     url_text=request.build_absolute_uri()
     print(url_text)
     gmail_share_string=quote(url_text)
@@ -1445,7 +1347,7 @@ def document_detail(request,doc_id):
     return render(request,'myapp/document_detail.html',{'doc_detail':doc_detail,'files':files,'files_exists':files_exists,'links':links,'links_exists':links_exists,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count,'gmail_share_string':gmail_share_string,'share_string':share_string})
 
 
-
+@login_required
 def documents_delete(request,cmp_id,d_id):
 
         b = Documents.objects.get(id=d_id)
@@ -1453,7 +1355,7 @@ def documents_delete(request,cmp_id,d_id):
         messages.success(request, "The user is deleted")  
         return HttpResponseRedirect(reverse('documentss',args=(cmp_id,)))
 
-
+@login_required
 def documents_file_delete(request,file_id):
 
     doc_file = Document_File.objects.get(id=file_id)
@@ -1462,9 +1364,8 @@ def documents_file_delete(request,file_id):
     messages.success(request, "File is deleted")  
     return HttpResponseRedirect(reverse('document_detail',args=(doc_id,)))
 
-
+@login_required
 def documents_links_delete(request,link_id):
-
     doc_link = Document_Links.objects.get(id=link_id)
     doc_link.delete() 
     doc_id=doc_link.document.id   
@@ -1473,8 +1374,8 @@ def documents_links_delete(request,link_id):
 
 
 
-
-
+# <--------package module----->
+@login_required
 def packages(request):  
     b=request.user
     if request.method == 'POST':
@@ -1492,30 +1393,25 @@ def packages(request):
         form = PackageForm()
     return render(request, 'myapp/addpackage.html', {'form': form,})
 
-
+@login_required
 def packagess(request):
     pack=Package.objects.all()
     return render(request,'myapp/package_list.html',{'pack':pack,})    
 
-
+@login_required
 def package_delete(request,p_id):
     b = Package.objects.get(id=p_id)
     if  Company_package.objects.filter(Package_selected=p_id).exists():
-
-        # raise Exception("can not be deleted ")
-        # return HttpResponseRedirect(reverse('packagess'))
-        # return render_to_response('packagess', message='Save complete')
-        messages.success(request, 'Successfully Sent The Message!')
+        messages.error(request, 'Successfully Sent The Message!')
+        print("zxdzn")
         return HttpResponseRedirect(reverse('packagess'))
     else:
-        
         b.delete()    
         messages.success(request, "The user is deleted")  
         return HttpResponseRedirect(reverse('packagess'))
 
-
+@login_required
 def package_update(request,p_id):
-   
     packs=Package.objects.get(id=p_id)
     if request.method == 'POST':
         form = PackageForm(request.POST, instance=packs)
@@ -1528,7 +1424,7 @@ def package_update(request,p_id):
         'form': form,'packs':packs,
     })
 
-
+@login_required
 def package_detail(request,p_id):
     packs=Package.objects.get(id=p_id)
     p=Company_package.objects.filter(Package_selected=p_id).count()
@@ -1536,9 +1432,11 @@ def package_detail(request,p_id):
     return render(request,'myapp/package_detail.html',{'packs':packs,'p':p})
 
 
+
+# <--------company's package module---->
+@login_required
 def package_list(request,cmp_id):
     compdetail=Company.objects.get(id=cmp_id)
-    
     loc_count=Location.objects.filter(company_id=compdetail.id).count()
     web_count=Website.objects.filter(website_company_name=compdetail.id).count()
     lic_count=Licence.objects.filter(company_id=compdetail.id).count()
@@ -1547,18 +1445,15 @@ def package_list(request,cmp_id):
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
     meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
-
     packs=Company_package.objects.filter(companys_name=cmp_id).values('Package_selected')
-    print(packs)
     pack=Package.objects.exclude(id__in=packs)
     return render(request,'myapp/company_package.html',{'pack':pack,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count})   
 
 
 
-
+@login_required
 def add_package(request,cmp_id,p_id):
     compdetail=Company.objects.get(id=cmp_id)
-
     loc_count=Location.objects.filter(company_id=compdetail.id).count()
     web_count=Website.objects.filter(website_company_name=compdetail.id).count()
     lic_count=Licence.objects.filter(company_id=compdetail.id).count()
@@ -1567,7 +1462,6 @@ def add_package(request,cmp_id,p_id):
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
     meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
-
     p=Package.objects.get(id=p_id)
     if request.method == 'POST':
         print("dfsfs")
@@ -1582,10 +1476,9 @@ def add_package(request,cmp_id,p_id):
         form = Company_package_Form()
     return render(request, 'myapp/add_compackage.html', {'form': form,'p':p,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count})
 
-
+@login_required
 def compack_details(request,cmp_id,p_id):
     compdetail=Company.objects.get(id=cmp_id)
-
     loc_count=Location.objects.filter(company_id=compdetail.id).count()
     web_count=Website.objects.filter(website_company_name=compdetail.id).count()
     lic_count=Licence.objects.filter(company_id=compdetail.id).count()
@@ -1594,14 +1487,12 @@ def compack_details(request,cmp_id,p_id):
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
     meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
-
     packs=Package.objects.get(id=p_id)
     return render(request,'myapp/compack_details.html',{'packs':packs,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count}) 
 
-
+@login_required
 def list_compack(request,cmp_id):  
     compdetail=Company.objects.get(id=cmp_id) 
-
     loc_count=Location.objects.filter(company_id=compdetail.id).count()
     web_count=Website.objects.filter(website_company_name=compdetail.id).count()
     lic_count=Licence.objects.filter(company_id=compdetail.id).count()
@@ -1610,22 +1501,21 @@ def list_compack(request,cmp_id):
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
     meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
-
     packs=Company_package.objects.filter(companys_name=cmp_id)
     return render(request,'myapp/list_compack.html',{'packs':packs,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count}) 
 
-
+@login_required
 def compackage_delete(request,cmp_id,p_id):
-
         b = Company_package.objects.get(id=p_id)
         b.delete()    
         messages.success(request, "The user is deleted")  
         return HttpResponseRedirect(reverse('list_compack',args=(cmp_id,)))    
     
     
+# <-------------server&device module---------->
+
 def add_device(request,cmp_id):
     compdetail=Company.objects.get(id=cmp_id)
-
     loc_count=Location.objects.filter(company_id=compdetail.id).count()
     web_count=Website.objects.filter(website_company_name=compdetail.id).count()
     lic_count=Licence.objects.filter(company_id=compdetail.id).count()
@@ -1634,7 +1524,6 @@ def add_device(request,cmp_id):
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
     meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
-
     device_type=DeviceType.objects.all()
     device_location=Location.objects.filter(company_id=cmp_id)
     if request.method == 'POST':
@@ -1651,6 +1540,7 @@ def add_device(request,cmp_id):
     return render(request, 'myapp/add_device.html', {'deviceform': deviceform,'device_type':device_type,'device_location':device_location,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count})
 
 
+@login_required
 def device_list(request,cmp_id):
     compdetail=Company.objects.get(id=cmp_id)
 
@@ -1670,11 +1560,10 @@ def device_list(request,cmp_id):
     return render(request,'myapp/device_list.html',{'device':device,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count})
 
 
-
+@login_required
 def device_detail(request,device_id):
     device_detail=Device.objects.get(id=device_id)
     compdetail=Company.objects.get(id=device_detail.company_id.id)
-
     loc_count=Location.objects.filter(company_id=compdetail.id).count()
     web_count=Website.objects.filter(website_company_name=compdetail.id).count()
     lic_count=Licence.objects.filter(company_id=compdetail.id).count()
@@ -1683,17 +1572,16 @@ def device_detail(request,device_id):
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
     meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
-
     return render(request,'myapp/device_detail.html',{'device_detail':device_detail,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count})
 
-
+@login_required
 def device_delete(request,device_id,cmp_id):
     b = Device.objects.get(id=device_id)
     b.delete()    
     messages.success(request, "The device is deleted")  
     return HttpResponseRedirect(reverse('device_list',args=(cmp_id,)))
 
-
+@login_required
 def device_update(request,device_id,cmp_id):
     compdetail=Company.objects.get(id=cmp_id)
 
@@ -1737,9 +1625,9 @@ def device_update(request,device_id,cmp_id):
 #     return render(request,'myapp/share_doc.html',{'doc_detail':doc_detail,'gmail_share_string':gmail_share_string,'files':files,'share_string':share_string,'files_exists':files_exists,'links':links,'links_exists':links_exists})
 
 
+#---------------meeting module----------------->
 
-
-
+@login_required
 def meetings(request,cmp_id):
     compdetail=Company.objects.get(id=cmp_id) 
 
@@ -1795,7 +1683,7 @@ def meetings(request,cmp_id):
 
 
 
-
+@login_required
 def meeting_list(request,cmp_id):
     compdetail=Company.objects.get(id=cmp_id)
 
@@ -1813,7 +1701,7 @@ def meeting_list(request,cmp_id):
 
 
   
-
+@login_required
 def meeting_update(request,m_id,cmp_id):
     compdetail=Company.objects.get(id=cmp_id)
 
@@ -1845,12 +1733,18 @@ def meeting_update(request,m_id,cmp_id):
     })
 
 
+
+@login_required
 def meeting_delete(request,m_id,cmp_id):
     b = Meeting.objects.get(id=m_id)
     b.delete()    
     messages.success(request, "The meeting is deleted")  
     return HttpResponseRedirect(reverse('meeting',args=(cmp_id,)))
 
+
+
+
+@login_required
 def meeting_details(request,m_id,cmp_id):
     compdetail=Company.objects.get(id=cmp_id)
 
@@ -1869,20 +1763,8 @@ def meeting_details(request,m_id,cmp_id):
     return render(request,'myapp/meeting_detail.html',{'meet':meet,'compdetail':compdetail,'lt':lt,'emp':emp,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count})
 
 
-# class AttendeesAutocomplete(autocomplete.Select2QuerySetView):
 
-#     def get_queryset(self):
-#         # Don't forget to filter out results depending on the visitor !
-#         # if not self.request.user.is_authenticated():
-#         #     return Course.objects.none()
-#         print("dsfdff")
-#         qs = Employee.objects.all()
-#         if self.q:
-#             qs = qs.filter(name__istartswith=self.q)
-#         return qs  
-
-
-
+@login_required
 def generate_meeting_pdf(request,m_id):
     meeting=Meeting.objects.get(id=m_id)
     attendees=meeting.attendees.all()
@@ -1906,7 +1788,7 @@ def generate_meeting_pdf(request,m_id):
 
 
 
-
+@login_required
 def employee_meeting(request,id):
     empdetail=Employee.objects.get(id=id)
     compdetail=Company.objects.get(id=empdetail.company_name.id)
@@ -1914,18 +1796,9 @@ def employee_meeting(request,id):
     return render(request,'myapp/employee_meetings.html',{'meet':meet,'compdetail':compdetail,'empdetail':empdetail})
 
 
-# def employee_meeting_details(request,id):
-#     empdetail=Employee.objects.get(id=id)
-#     print(empdetail)
-#     compdetail=Company.objects.get(id=empdetail.company_name.id)
-#     meet= Meeting.objects.get(id=id)    
-#     # emp=meet.attendees.all()
-#     lt=Meeting.objects.filter(id=meet.id)
-#     return render(request,'myapp/employee_meetings_details.html',{'meet':meet,'compdetail':compdetail,'empdetail':empdetail})
 
 
-
-
+@login_required
 def employee_meeting_details(request,m_id,id):
     empdetail=Employee.objects.get(id=id)
     compdetail=Company.objects.get(id=empdetail.company_name.id)

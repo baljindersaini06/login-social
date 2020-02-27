@@ -1,8 +1,10 @@
 {% extends 'myapp/layout4.html' %}
 {% load static %}
-
 {% block content %}
-
+<!-- --datepicker-- -->
+<link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/themes/redmond/jquery-ui.css" rel="Stylesheet" />
+<script language="javascript" type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script> 
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/jquery-ui.min.js"></script> 
 
 <h3 class="page-title">
     Add Meeting<!--<small>user account page sample</small> -->
@@ -51,8 +53,8 @@
     
     <div class="form-group">
         <label class="control-label">Date of Meeting</label>
-        <input type="date" name="date_time" id="date_time" class="form-control"/>
-
+        <input type="text" name="date_time" id="date_time" class="form-control"/>
+        
       
     </div>
     <div class="form-group">
@@ -87,5 +89,11 @@
     </div>
 </form>
 </div>
+<script>
+    $( function() {
+        $( "#date_time" ).datepicker();
+          dateFormat: 'yy-mm-dd'
+        });
+</script>
 
 {% endblock %}

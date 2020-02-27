@@ -68,10 +68,10 @@
     <thead>
       <tr>
         <th>Id</th>
-        <th>location_name</th>
-        <th>location_address</th>
-        <th>location_city </th>
-        <th>location_postal_code</th>
+        <th>name</th>
+        <th>address</th>
+        <th>city </th>
+        <th>postal_code</th>
         <th>countries</th>
         <th>is_headquater </th>
         <th>Edit/Delete</th>
@@ -82,14 +82,14 @@
       {% for l in loc %}
       <tr>
           <td>{{ l.id }}</td>
-          <td><a href="{% url 'location_detail' l.id %}">{{ l.location_name }}</a></td>
+          <td><a href="{% url 'location_detail' compdetail.id l.id %}">{{ l.location_name }}</a></td>
           <td>{{ l.location_address }}</td>
           <td>{{ l.location_city }}</td>
           <td>{{ l.location_postal_code }}</td>
           <td>{{ l.country }}</td>
           <td>{{ l.is_headquater }}</td>
-          <td><a href="{% url 'company_location_update' l.id %}"><button class="btn btn-primary btn-xs"  data-title="Edit" data-toggle="modal" data-target="#edit" type="button"><span class="glyphicon glyphicon-pencil"></span></button></a>
-            &nbsp;&nbsp;<button class="btn btn-danger btn-xs" href ="{% url 'company_location_delete' l.id  %}"  data-title="Delete"  data-toggle="modal" data-target="#delete" type="button"><span class="glyphicon glyphicon-trash"></span></button></td>
+          <td><a href="{% url 'company_location_update' compdetail.id l.id %}"><button class="btn btn-primary btn-xs"  data-title="Edit" data-toggle="modal" data-target="#edit" type="button"><span class="glyphicon glyphicon-pencil"></span></button></a>
+            &nbsp;&nbsp;<button class="btn btn-danger btn-xs" href ="{% url 'company_location_delete' compdetail.id l.id  %}"  data-title="Delete"  data-toggle="modal" data-target="#delete" type="button"><span class="glyphicon glyphicon-trash"></span></button></td>
       </tr>
       {% endfor %}
   </tbody>

@@ -59,7 +59,13 @@
       </li>
   </ul>
 </div>
-
+<!-- {% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %} -->
 
 <table id="tes_table_com_pack" class="display table table-striped table-bordered" border="1" cellspacing="0" width="100%">
     <thead>
@@ -81,11 +87,23 @@
           <td>{{ l.date_time }}</td>
          
           <td><a href ="{% url 'package_update' l.id  %}"><button  class="btn btn-primary btn-xs"  data-title="Edit" data-toggle="modal" data-target="#edit" type="button"><span class="glyphicon glyphicon-pencil"></span></button></a>
-            &nbsp;&nbsp;<button class="btn btn-danger btn-xs" href ="{% url 'package_delete'  l.id  %}"   data-title="Delete" data-toggle="modal" data-target="#delete" type="button"><span class="glyphicon glyphicon-trash"></span></button></td>
-          
+            &nbsp;&nbsp;
+            <button class="btn btn-danger btn-xs" href ="{% url 'package_delete'  l.id  %}"   data-title="Delete" data-toggle="modal" data-target="#delete" type="button" ><span class="glyphicon glyphicon-trash"></span></button></td>
+            
       </tr>
       {% endfor %}
-      
+     
+
+
+
+
+
+
+
+
+
+
+
   </tbody>
               
   </table>
@@ -101,7 +119,7 @@
           var url=$(this).attr("href");
           swal({
               title: "want to delete",
-              text: "It will be deleted permanently",
+              text: "Package will only be deleted if it is not being used.It will be deleted permanently",
               showCancelButton: true,
               confirmButtonColor: "#DD6B55",
               confirmButtonText: "confirm",
@@ -116,7 +134,7 @@
                   location.reload();
                   swal({
                       title: 'Deleted!', 
-                      text: 'Item  deleted successfully.',
+                     
                       type: 'warning'
                   });
                  

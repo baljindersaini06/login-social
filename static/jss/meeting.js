@@ -11,7 +11,8 @@ jQuery(document).ready(function() {
         remote : {url: "/test_meeting", async:false}
     },
     date_time: {
-        required : true
+        required : true,
+        remote : {url: "/test_meeting", async:false}
     },
     time:{
         required : true
@@ -28,13 +29,16 @@ jQuery(document).ready(function() {
     
         
     },
-    // Specify validation error messages
     messages: {
         title:{
             required:"This field is required",
             remote : "Meeting with this name already exists.",
         } ,
-        date_time: "This field is required",
+        date_time: {
+            required:"This field is required",
+            remote : "Please choose future date",
+
+        } ,
         time :"This field is required",
         where: "This field is required",
         attendees: "This field is required",

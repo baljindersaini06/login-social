@@ -427,13 +427,13 @@
 				{% if request.user|has_group:"Admin" or  request.user|has_group:"Company Admin" or  request.user|has_group:"HR"%}
 
                 <li class="heading">
-					<h3 class="uppercase" style="color:red;"><a href="{% url 'company_detail' compdetail.id %}">{{ compdetail.company_name }}</a></h3>
+					<h3 class="uppercase"><a href="{% url 'company_detail' compdetail.id %}">{{ compdetail.company_name }}</a></h3>
                 </li>
                 
                 <li>
 					<a href="{% url 'employeeview' compdetail.id %}">
 					<i class="icon-user"></i>
-					<span class="title">Employees List</span><span class="dot">{{ employee_count }}</span>
+					<span class="title">Employees List</span>&nbsp;<span class="dot">{{ employee_count }}</span>
 					<!-- <span class="arrow "></span> -->
 					</a>
 				</li>
@@ -455,7 +455,7 @@
 						<li>
 							<a href="{% url 'licencelist' compdetail.id %}">
 								<i class="icon-docs"></i>
-								<span class="title">Licences</span><span class="dot">{{ lic_count }}</span>
+								<span class="title">Software Licences</span>&nbsp;<span class="dot">{{ lic_count }}</span>
 								<!-- <span class="arrow "></span> -->
 								</a>
 							</li>	
@@ -486,7 +486,7 @@
 								<li>
 								<a href="{% url 'device_list' compdetail.id %}">
 									<i class="fa fa-desktop"></i>
-									<span class="title">Devices</span><span class="dot">{{ device_count }}</span>
+									<span class="title">Server & Devices</span>&nbsp;<span class="dot">{{ device_count }}</span>
 									<!-- <span class="arrow "></span> -->
 									</a>
 								</li>
@@ -505,7 +505,7 @@
 
 								<li class="heading">
 								
-								<p style="color:red;">Employee Name:{{ empdetail.employee_name }}</p>
+								<p style="color:white;">Employee Name:{{ empdetail.employee_name }}</p>
 
 							</li>
 							<li>

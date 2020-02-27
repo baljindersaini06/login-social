@@ -6,6 +6,7 @@ from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth import get_user_model
 from django_countries.fields import CountryField
 from django_countries import widgets, countries
+import datetime
 
 User = get_user_model()
 
@@ -248,7 +249,7 @@ class User_updateForm(forms.ModelForm):
 
 
 class LocationForm(forms.ModelForm):
-    # country = forms.ChoiceField(choices=countries)
+    location_bussiness_hours = forms.CharField(max_length=30, required=False)
     class Meta:
         model = Location
         fields = ('company_id','location_name','location_address','country','location_city','location_postal_code','location_bussiness_hours','is_headquater','is_off_hours_accessible') 
@@ -257,6 +258,8 @@ class LocationForm(forms.ModelForm):
 
 
 class LocationUpdateForm(forms.ModelForm):
+    location_bussiness_hours = forms.CharField(max_length=30, required=False)
+
     class Meta:
         model = Location
         fields = ('location_name','location_address','country','location_city','location_postal_code','location_bussiness_hours','is_headquater','is_off_hours_accessible') 
@@ -347,8 +350,15 @@ class Meeting_Form(forms.ModelForm):
     attendees = forms.ModelMultipleChoiceField(
         queryset=Employee.objects.all(),
         widget=forms.SelectMultiple(attrs={"class" : "form-control select-multiple"}))
-    
+    date_time =forms.DateField(required=True,widget=forms.TextInput(
+            attrs={
+                'id': 'date_time',
+                
+            }
+        ))
     
     class Meta:
         model = Meeting
         fields=('title','date_time','time','where','attendees','priority')
+
+    
