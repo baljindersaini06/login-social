@@ -31,6 +31,10 @@ jQuery(document).ready(function() {
             remote : {url: "/test_phone_no", async:false}
 
         },
+        // emp_location:{
+        //     required : true,
+          
+        // },
         
     },
     // Specify validation error messages
@@ -52,7 +56,13 @@ jQuery(document).ready(function() {
             maxlength : "only 10 digit number is allowed",
             remote:"Phone number is already registered.",
 
-        }
+        },
+        // emp_location:{
+        //     required : "This field is required",
+          
+        // },
+        
+
     },
     // Make sure the form is submitted to the destination defined
     // in the "action" attribute of the form when valid
@@ -70,3 +80,29 @@ $('#role').on('change',function(){
     }
 });
 });
+
+jQuery(document).ready(function() {   
+    $("form[name='user1']").validate({
+    errorClass: "my-error-class", //for error colors
+    // Specify validation rules
+    rules: {
+         emp_location:{
+            required : true,
+          
+        },
+        
+    },
+    messages: {
+         emp_location:{
+            required : "This field is required",
+          
+        },
+        
+
+    },
+    submitHandler: function(form) {
+        form.submit();
+        toastr.success('User Created Successfully')
+        }
+    }) 
+    });

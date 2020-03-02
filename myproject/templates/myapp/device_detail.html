@@ -19,8 +19,21 @@
     }
     .btn-xs {
       padding: 5px 9px;
-      border-radius:5px!important;
-   }
+      border-radius:5px!important;}
+      .card {
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+        width: fit-content;
+        }
+
+        .card:hover {
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+        }
+
+        .container {
+        padding: 2px 16px;
+        }
+   
   </style>
 <h3 class="page-title">
     Device Detail <!--<small>user account page sample</small> -->
@@ -69,39 +82,11 @@
                 <!-- SIDEBAR USER TITLE -->
                 <div class="profile-usertitle">
 
-                    
-                    <!-- <div class="profile-usertitle-name">
-                       Company Name: {{ compdetail.company_name }}
-                    </div> -->
-                    
-                <!-- </div> -->
-                <!-- END SIDEBAR USER TITLE -->
-                <!-- SIDEBAR BUTTONS -->
-
-                <!-- <div class="profile-userbuttons">
-                    <button type="button" class="btn btn-circle green-haze btn-sm">Follow</button>
-                    <button type="button" class="btn btn-circle btn-danger btn-sm">Message</button>
-                </div> -->
                 <!-- END SIDEBAR BUTTONS -->
                 <!-- SIDEBAR MENU -->
                 <div class="profile-usermenu">
                     <ul class="nav">
-                        <!-- <li>
-                            <a href="extra_profile.html">
-                            <i class="icon-home"></i>
-                            Overview </a>
-                        </li> -->
-                        
-                        <!-- <li>
-                            <a href="page_todo.html" target="_blank">
-                            <i class="icon-check"></i>
-                            Tasks </a>
-                        </li> -->
-                        <!-- <li>
-                            <a href="extra_profile_help.html">
-                            <i class="icon-info"></i>
-                            Help </a>
-                        </li> -->
+                       
                     </ul>
                 </div>
                 <!-- END MENU -->
@@ -109,38 +94,32 @@
             <!-- END PORTLET MAIN -->
             
         </div>
-        <!-- END BEGIN PROFILE SIDEBAR -->
-        <!-- BEGIN PROFILE CONTENT -->
+
         <div class="profile-content">
             <div class="row">
                 <div class="col-md-12">
                     <!-- <div class="portlet light"> -->
                         <div class="portlet-title tabbable-line">
-                            <!-- <div class="caption caption-md">
-                                <i class="icon-globe theme-font hide"></i>
-                                <span class="caption-subject font-blue-madison bold uppercase">Company Detail</span>
-                            </div> -->
-                            <!-- <ul class="nav nav-tabs">
-                                <li class="active">
-                                    <a href="#tab_1_1" data-toggle="tab">Personal Info</a>
-                                </li>
-                                
-                            </ul> -->
+                           
                         </div>
-                        <div class="pogo"> <!--portlet-body  -->
-                            <!-- <div class="tab-content"> -->
-                                
-                               
-                                <h4><strong>Company Name</strong> - {{ device_detail.company_id.company_name }}</h4><br> 
-                                <p><strong>Device Type</strong> - {{ device_detail.device_type_id.device_type_name }}<br><br>
+                        <div class="pogo">
+                          
+                                <div class="card">
+                                <div class="container">
+                                <h3 style="margin-left: 12%;">{{ device_detail.company_id.company_name }}</h3>
+                                <h5 id="secretInfo" style="margin-left: 12%;"> {{ device_detail.device_type_id.device_type_name }}</h5><br>
 
-                                <p><strong>Device Name</strong> - {{ device_detail.device_name }}<br><br>
+                               <strong>Device Name</strong> - {{ device_detail.device_name }}<br><br>
                                 <strong>Device Location</strong> - {{ device_detail.location_id.location_name }}<br><br>
                                 <strong>Device Url Address</strong> - {{ device_detail.device_url_address }}<br><br>
-                                <strong>Device Note</strong> - {{ device_detail.device_note }}<br></p><br>
-                                <strong>Device Configuration Id</strong> - {{ device_detail.device_configuration_id }}<br></p><br>
-                                <strong>Device Configuration Parent Id</strong> - {{ device_detail.device_configuration_parent_id }}<br></p><br>
+                                <strong>Device Note</strong> - {{ device_detail.device_note }}<br><br>
+                                <strong>Device Username</strong> - {{ device_detail.device_username }}<br><br>
+                                <strong>Device Password- <input type="password" name="device_password" id="device_password" value="{{ device_detail.device_password }}"  style="width: fit-content;" class="form-control" readonly/></strong> 
+                                <input type="checkbox" onclick="myFunction()">Show Password
 
+                                <br>
+                            </div>
+                        </div>
 
                             </div>
                         </div>
@@ -151,5 +130,14 @@
         <!-- END PROFILE CONTENT -->
     </div>
 </div>
-
+<script>
+function myFunction() {
+    var x = document.getElementById("device_password");
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
+  }
+</script>
     {% endblock %}

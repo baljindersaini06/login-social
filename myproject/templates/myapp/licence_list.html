@@ -69,8 +69,8 @@
       <tr>
         <th>Id</th>
         <th>licence type</th>
+        <th>Workstation</th>
         <th>licence name</th>
-        <th>licence_quantity </th>
         <th>Edit/Delete</th>
         
       </tr>
@@ -80,8 +80,9 @@
       <tr>
           <td>{{ l.id }}</td>
           <td>{{ l.licence_type_id.licence_type_name }}</td>
+          <td>{{ l.workstation_asset_tag }}</td>
           <td><a href="{% url 'licence_detail' l.id %}">{{ l.licence_name }}</a></td>
-          <td>{{ l.licence_quantity }}</td>
+        
 
           <td><a href="{% url 'licence_update' l.company_id.id l.id  %}"><button class="btn btn-primary btn-xs"  data-title="Edit" data-toggle="modal" data-target="#edit" type="button"><span class="glyphicon glyphicon-pencil"></span></button></a>
             &nbsp;&nbsp;<button class="btn btn-danger btn-xs" href ="{% url 'licence_delete' l.company_id.id l.id  %}"  data-title="Delete"  data-toggle="modal" data-target="#delete" type="button"><span class="glyphicon glyphicon-trash"></span></button></td>

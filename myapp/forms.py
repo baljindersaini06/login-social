@@ -189,7 +189,7 @@ class EmployeeForm(forms.ModelForm):
 
     class Meta:
         model = Employee
-        fields = ('company_name', 'employee_name', 'phone_number', 'note', 'designation', 'employee_email')
+        fields = ('company_name', 'employee_name', 'phone_number', 'note', 'designation', 'employee_email',)
 
 
 
@@ -209,11 +209,12 @@ class UpdateEmployeeForm(forms.ModelForm):
 
 
 class UpdateEmployeeInfo(forms.ModelForm):
-    
+    note = forms.CharField(max_length=254,required=False)
+    designation = forms.CharField(max_length=254,required=False)
     class Meta:
         model = Employee
 
-        fields = ('phone_number','note', 'designation','employee_email','workstation')        
+        fields = ('phone_number','note', 'designation','employee_email','emp_location','workstation')        
 
 
         
@@ -285,13 +286,13 @@ class Website_UpdateForm(forms.ModelForm):
 class LicenceForm(forms.ModelForm):
     class Meta:
         model = Licence
-        fields = ('licence_type_id','company_id','licence_name','licence_quantity','licence_key','aquisition_date','activation_date','expire_date','licence_note')        
+        fields = ('licence_type_id','company_id','licence_name','licence_key','workstation_asset_tag','aquisition_date','activation_date','expire_date','licence_note')        
 
 
 class Licence_UpdateForm(forms.ModelForm):
     class Meta:
         model = Licence
-        fields = ('licence_type_id','licence_name','licence_quantity','licence_key','aquisition_date','activation_date','expire_date','licence_note')        
+        fields = ('licence_type_id','licence_name','licence_key','workstation_asset_tag','aquisition_date','activation_date','expire_date','licence_note')        
 
 
 
@@ -334,15 +335,16 @@ class Company_package_Form(forms.ModelForm):
         fields = ('companys_name','Package_selected')          
 
 class DeviceForm(forms.ModelForm):
+    device_password = forms.CharField(max_length=10, widget=forms.PasswordInput)
     class Meta:
         model = Device
-        fields = ('device_type_id','company_id','location_id','device_name','device_url_address','device_note','device_configuration_id','device_configuration_parent_id')        
+        fields = ('device_type_id','company_id','location_id','device_name','device_url_address','device_note','device_username','device_password')        
 
 
 class Device_UpdateForm(forms.ModelForm):
     class Meta:
         model = Device
-        fields = ('device_name','device_url_address','device_note','device_configuration_id','device_configuration_parent_id')          
+        fields = ('device_name','device_url_address','device_note','device_username','device_password')          
 
 
 

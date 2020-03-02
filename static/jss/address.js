@@ -90,9 +90,9 @@ jQuery(document).ready(function() {
                 required : false,
                 maxlength : 24,
             },
-            is_headquater:{
-                remote : {url: "/test_location_update", async:false}
-            }
+            // is_headquater:{
+            //     remote : {url: "/test_location_update", async:false}
+            // }
 
         },
         messages: {

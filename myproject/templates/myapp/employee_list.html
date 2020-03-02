@@ -64,9 +64,12 @@
     <thead>
       <tr>
         <th>Id</th>
-        <th>Company Name</th>
+        <!-- <th>Company Name</th> -->
         <th>Employee Name</th>
-        
+        <th>Phone No</th>
+        <th>email</th>
+        <th>location</th>
+        <th>workstations</th>
         <th>Edit/Delete</th>
         
       </tr>
@@ -75,8 +78,12 @@
       {% for e in employee %}
       <tr>
           <td>{{ e.id }}</td>
-          <td>{{ e.company_name.company_name }}</td>
+          <!-- <td>{{ e.company_name.company_name }}</td> -->
           <td><a href="{% url 'employee_detail' e.id %}">{{ e.employee_name }}</a></td>
+          <td>{{ e.phone_number }}</td> 
+          <td>{{ e.employee_email }}</td>
+          <td>{{ e.emp_location.location_name }}</td>  
+          <td>{{ e.workstation.device_name }}</td> 
           <td><a href="{% url 'employee_update' e.id %}"><button class="btn btn-primary btn-xs"  data-title="Edit" data-toggle="modal" data-target="#edit" type="button"><span class="glyphicon glyphicon-pencil"></span></button></a>
             &nbsp;&nbsp;<button class="btn btn-danger btn-xs" href ="{% url 'employee_delete' e.id  %}"  data-title="Delete"  data-toggle="modal" data-target="#delete" type="button"><span class="glyphicon glyphicon-trash"></span></button></td>
       </tr>

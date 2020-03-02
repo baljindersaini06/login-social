@@ -1,5 +1,5 @@
 
-{% extends 'myapp/layout4.html' %}
+{% extends 'myapp/layout3.html' %}
 {% load static %}
 {% block content %}
 <style>
@@ -22,22 +22,21 @@
       border-radius:5px!important;
    }
    .card {
-        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-        transition: 0.3s;
-      
-        }
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+ 
+}
 
-        .card:hover {
-        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-        }
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
 
-        .container {
-        padding: 2px 16px;
-        }
+.container {
+  padding: 2px 16px;
+}
   </style>
 <h3 class="page-title">
-    Employee Detail <!--<small>user account page sample</small> -->
-    <button class="add-button" type="button"><a style="text-decoration:none;color:white;" href="{% url 'employee_update' empdetail.id %}">Update Employee</a></button>
+    User Detail <!--<small>user account page sample</small> -->
 
    </h3>
    <div class="page-bar">
@@ -47,20 +46,20 @@
             <a href="{% url 'dashboard' %}">Home</a>
             <i class="fa fa-angle-right"></i>
         </li>
-        <li>
+        <!-- <li>
             <a href="#">{{ empdetail.company_name.company_name }}</a>
             <i class="fa fa-angle-right"></i>
-        </li>
+        </li> -->
         <!-- <li>
             <a href="">{{ empdetail.company_name }}</a>
             <i class="fa fa-angle-right"></i>
         </li> -->
         <li>
-            <a href="">Employee Detail</a>
+            <a href="">User Detail</a>
             <i class="fa fa-angle-right"></i>
         </li>
          <li>
-            <a href="">{{ empdetail.employee_name }}</a>
+            <a href="">{{ empdetail.username }}</a>
             <i class="fa fa-angle-right"></i>
         </li>
     </ul>
@@ -141,21 +140,19 @@
                                 
                             </ul> -->
                         </div>
-                       
+                        
                         <div class="pogo"> <!--portlet-body  -->
                             <!-- <div class="tab-content"> -->
                                 <div class="card">
+                                <button type="button" id="btnCopy"><i class="fas fa-copy"></button></i>
                                 <div class="container">
-                               
-                                <h3 style="margin-left: 12%;"><strong>{{ empdetail.company_name.company_name }}</strong></h3>
-                                <h3 style="margin-left: 15%;">{{ empdetail.employee_name }}</h3><br><br>
-                                <strong>Phone Number</strong> - {{ empdetail.phone_number }}<br><br>
-                                <strong>Note</strong> - {{ empdetail.note }}<br><br>
-                                <strong>Designation</strong> - {{ empdetail.designation }}<br></p><br>
-                                <strong>Employee Email</strong> - {{ empdetail.employee_email }}<br></p><br>
-                                <strong>Employee Location</strong> - {{ empdetail.emp_location }}<br></p><br>
+                                <h3 style="margin-left: 12%;"><strong>{{ empdetail.company_name}}</strong></h3>
+                                <h4 id="secretInfo" style="margin-left: 14%;">{{ empdetail.username }}</h4><br>
+                               <strong>Employee Name</strong> - {{ empdetail.first_name }}  {{ empdetail.last_name }}<br><br>
+                                <strong>User Email</strong> - {{ empdetail.email }}<br><br>
+                                <strong>phone_no</strong> - {{ empdetail.phone_no }}<br><br>
                             </div>
-                        </div>
+                            </div>
                             </div>
                         </div>
                     </div>
@@ -165,5 +162,23 @@
         <!-- END PROFILE CONTENT -->
     </div>
 </div>
+<script type="text/javascript">
+    var $body = document.getElementsByTagName('body')[0];
+    var $btnCopy = document.getElementById('btnCopy');
+    var secretInfo = document.getElementById('secretInfo').innerHTML;
+
+    var copyToClipboard = function(secretInfo) {
+      var $tempInput = document.createElement('INPUT');
+      $body.appendChild($tempInput);
+      $tempInput.setAttribute('value', secretInfo)
+      $tempInput.select();
+      document.execCommand('copy');
+      $body.removeChild($tempInput);
+    }
+
+    $btnCopy.addEventListener('click', function(ev) {
+      copyToClipboard(secretInfo);
+    });
+  </script>
 
     {% endblock %}

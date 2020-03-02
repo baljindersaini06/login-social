@@ -100,7 +100,6 @@ def signup(request):
         print("hello")
         form = SignUpForm(request.POST)
         if form.is_valid():
-            print("hi")
             user= form.save(commit=False)
             user.phone_no = form.cleaned_data.get('phone_no')
             user.is_active = False
@@ -140,15 +139,14 @@ def company_employee_signup(request,cmp_id):
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
     meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
-
+    
 
 
     a=Group.objects.filter(name__in=['Company Admin','Company Employee','Company HR'])
     if request.method == 'POST':
-        print("hello")
         form = SignUpForm(request.POST)
         if form.is_valid():
-            print("hi")
+        
             user= form.save(commit=False)
             user.phone_no = form.cleaned_data.get('phone_no')
             user.is_active = False            
@@ -173,7 +171,7 @@ def company_employee_signup(request,cmp_id):
     else:      
         form = SignUpForm()
         
-    return render(request, 'registration/company_employee_registration.html', {'form': form,'a':a,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count})
+    return render(request, 'registration/company_employee_registration.html', {'form': form,'a':a,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count,})
 
 
 
@@ -206,7 +204,7 @@ def setpassword(request,uid, backend='django.contrib.auth.backends.ModelBackend'
             query_set = Group.objects.filter(user = request.user)
             for g in query_set:
             # this should print all group names for the user
-                print(g)
+       
                 if g.name == "Company Admin": 
                     return redirect('add_employee')
                 elif g.name == "Company Employee":
@@ -238,7 +236,6 @@ def dashboard1(request):
     userinfo=User.objects.get(username=request.user)
     try:
         empinfo=Employee.objects.get(employee_name=userinfo)
-        print(empinfo)
     except Employee.DoesNotExist:
         empinfo = None
 
@@ -246,7 +243,6 @@ def dashboard1(request):
     query_set = Group.objects.filter(user = request.user)
     for g in query_set:
     # this should print all group names for the user
-        print(g.name)
         if g.name == "Company Admin": 
             return HttpResponseRedirect(reverse('company_detail',args=(userinfo.company_name.id,)))       
         elif g.name == "Company Employee":
@@ -485,12 +481,12 @@ def test_location(request):
             response_str = "false"
         return HttpResponse(response_str)
 
-def test_location_update(request):
-    response_str = "false"
-    if request.is_ajax():
-        is_headquater = request.GET.get("is_headquater")
-        headquater_exists = Location.objects.filter(is_headquater='True').exists()
-        return HttpResponse(response_str)
+# def test_location_update(request):
+#     response_str = "false"
+#     if request.is_ajax():
+#         is_headquater = request.GET.get("is_headquater")
+#         headquater_exists = Location.objects.filter(is_headquater='True').exists()
+#         return HttpResponse(response_str)
 
 
 
@@ -621,11 +617,20 @@ def user_view(request):
 
 
 
+def user_details(request,id):
+    empdetail=User.objects.get(id=id)
+    return render(request,'myapp/userview.html',{'empdetail':empdetail})
+
+
+
+
+
+
+
+
 @login_required
 def user_delete(request,id):
-    print("delete")
     c = User.objects.get(id=id)
-    print(c)
     c.delete()    
     messages.success(request, "The user is deleted")  
     return HttpResponseRedirect(reverse('userview'))
@@ -643,11 +648,13 @@ def company_detail(request,id):
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
     meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
+    
     try:
         webs=Website.objects.filter(website_company_name=compdetail.id,is_headquater_website=True)
     except Website.DoesNotExist:
         webs = None        
     try:
+      
         loc=[Location.objects.filter(company_id=compdetail.id,is_headquater=True).latest('is_headquater')]
     except Location.DoesNotExist:
         loc = None 
@@ -657,8 +664,6 @@ def company_detail(request,id):
         loc1=Location.objects.filter(company_id=compdetail.id)
     except Location.DoesNotExist:
         loc1 = None     
-    # c=Location.objects.filter(company_id=compdetail.id)
-    # print(c)
     # log = LogEntry.objects.select_related().all().order_by("id")            
     return render(request, 'myapp/company_detail.html',{'compdetail':compdetail,'webs':webs,'loc': loc,'loc1':loc1,'logs':logs,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count})
 
@@ -730,10 +735,8 @@ def user_update(request,user_id, template_name='myapp/edit_user.html'):
     print(user.phone_no)
     a=user.groups.all()
     grps=Group.objects.all()
-    print("Helloo")
     fform = User_updateForm(request.POST, instance=user)
     if fform.is_valid():
-        print("dasfs")
         fform.save()
         return redirect('userview')
     return render(request, template_name, {'fform':fform,'user':user,'a':a,'grps':grps})
@@ -752,9 +755,7 @@ def company_update(request, pk, template_name='myapp/edit_company2.html'):
 
 @login_required
 def company_delete(request,id):
-    print("delete")
     b = Company.objects.get(id=id)
-    print(b)
     b.delete()     
     return HttpResponseRedirect(reverse('companyview'))
 
@@ -764,6 +765,7 @@ def employee_update(request,empdetail_id):
     employee=Employee.objects.get(id=empdetail_id)
     compdetail=Company.objects.get(id=employee.company_name.id)
     emp=Device.objects.all()
+    emp_location=Location.objects.filter(company_id=employee.company_name.id)
     loc_count=Location.objects.filter(company_id=compdetail.id).count()
     web_count=Website.objects.filter(website_company_name=compdetail.id).count()
     lic_count=Licence.objects.filter(company_id=compdetail.id).count()
@@ -772,6 +774,7 @@ def employee_update(request,empdetail_id):
     device_count=Device.objects.filter(company_id=compdetail.id).count()
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
     meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
+
     if request.method == 'POST':
         emp_update_form = UpdateEmployeeInfo(request.POST, instance=employee)
         if (emp_update_form.is_valid()):
@@ -781,7 +784,7 @@ def employee_update(request,empdetail_id):
         emp_update_form = UpdateEmployeeInfo(instance=employee)
     return render(request, 'registration/employee_update1.html', {
 
-        'emp_update_form': emp_update_form,'employee':employee,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'emp':emp,'meeting_count':meeting_count,'empdetail':empdetail
+        'emp_update_form': emp_update_form,'employee':employee,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'emp':emp,'meeting_count':meeting_count,'empdetail':empdetail,'emp_location':emp_location
 
     })
 
@@ -813,7 +816,6 @@ def addgroup(request):
         if addgroup_form.is_valid:
             name = request.POST.get('name')
             permissions = request.POST.getlist('permissions')
-            print(permissions)
             new_group = Group.objects.create(name =name)       
             for z in permissions:   
                 new_group.permissions.add(z) 
@@ -1084,7 +1086,7 @@ def website_delete(request,cmp_id,w_id):
 @login_required
 def licence(request,cmp_id):
     compdetail=Company.objects.get(id=cmp_id)
-
+    emp=Device.objects.filter(company_id=cmp_id)
     loc_count=Location.objects.filter(company_id=compdetail.id).count()
     web_count=Website.objects.filter(website_company_name=compdetail.id).count()
     lic_count=Licence.objects.filter(company_id=compdetail.id).count()
@@ -1104,7 +1106,7 @@ def licence(request,cmp_id):
           return HttpResponseRedirect(reverse('licencelist',args=(cmp_id,)))
     else:
         licence_form = LicenceForm()
-    return render(request, 'myapp/add_licence.html', {'licence_form': licence_form,'lt':lt,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count})
+    return render(request, 'myapp/add_licence.html', {'licence_form': licence_form,'lt':lt,'compdetail':compdetail,'emp':emp,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count})
 
 
 def licencelist(request,cmp_id):
@@ -1146,6 +1148,7 @@ def licence_delete(request,cmp_id,lic_id):
 @login_required
 def licence_update(request,cmp_id,lic_id):
     compdetail=Company.objects.get(id=cmp_id)
+    emp=Device.objects.filter(company_id=cmp_id)
     loc_count=Location.objects.filter(company_id=compdetail.id).count()
     web_count=Website.objects.filter(website_company_name=compdetail.id).count()
     lic_count=Licence.objects.filter(company_id=compdetail.id).count()
@@ -1166,7 +1169,7 @@ def licence_update(request,cmp_id,lic_id):
     else:
         form = Licence_UpdateForm(instance=lic)
     return render(request, 'myapp/licence_update.html', {
-        'form': form,'lic':lic,'a':a,'compdetail':compdetail,'comp1':comp1,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count
+        'form': form,'lic':lic,'a':a,'compdetail':compdetail,'emp':emp,'comp1':comp1,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count
     })
 
 
@@ -1208,9 +1211,8 @@ def documents(request,cmp_id):
     doc = Document_category.objects.all()
     if request.method == 'POST' and 'btn' in request.POST:
         form = DocumentsForm(request.POST, request.FILES)
-        print("addsa")
+      
         if form.is_valid():
-            print("dasf")
             a = form.save(commit=False)
             a.compani_name = Company.objects.get(pk = cmp_id)
             a.d_by = User.objects.get(pk=b.id)
@@ -1248,9 +1250,6 @@ def documents_file(request,doc_id):
             for f in files:
                 instance = Document_File(document=document, file_upload=f)
                 instance.save()
-            #     doc = form.save(commit=False)
-            # doc.document = Documents.objects.get( id=doc_id)
-            # doc.save()
             return HttpResponseRedirect(reverse('document_detail',args=(doc_id,)))          
     else:
         form = DocumentsFileForm()
@@ -1340,9 +1339,7 @@ def document_detail(request,doc_id):
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
     meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
     url_text=request.build_absolute_uri()
-    print(url_text)
     gmail_share_string=quote(url_text)
-    print(gmail_share_string)
     share_string=quote(doc_detail.title)
     return render(request,'myapp/document_detail.html',{'doc_detail':doc_detail,'files':files,'files_exists':files_exists,'links':links,'links_exists':links_exists,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count,'gmail_share_string':gmail_share_string,'share_string':share_string})
 
@@ -1403,7 +1400,6 @@ def package_delete(request,p_id):
     b = Package.objects.get(id=p_id)
     if  Company_package.objects.filter(Package_selected=p_id).exists():
         messages.error(request, 'Successfully Sent The Message!')
-        print("zxdzn")
         return HttpResponseRedirect(reverse('packagess'))
     else:
         b.delete()    
@@ -1428,7 +1424,6 @@ def package_update(request,p_id):
 def package_detail(request,p_id):
     packs=Package.objects.get(id=p_id)
     p=Company_package.objects.filter(Package_selected=p_id).count()
-    print(p)
     return render(request,'myapp/package_detail.html',{'packs':packs,'p':p})
 
 
@@ -1464,11 +1459,8 @@ def add_package(request,cmp_id,p_id):
     meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
     p=Package.objects.get(id=p_id)
     if request.method == 'POST':
-        print("dfsfs")
         form = Company_package_Form(request.POST)
-        print("addsa")
         if form.is_valid():
-            print("dasf")
             a = form.save(commit=False)
             a.save()
             return HttpResponseRedirect(reverse('compack_details',args=(cmp_id,p_id)))            
@@ -1528,9 +1520,7 @@ def add_device(request,cmp_id):
     device_location=Location.objects.filter(company_id=cmp_id)
     if request.method == 'POST':
         deviceform = DeviceForm(request.POST)   
-        print("ddddd")
         if deviceform.is_valid():
-            print("dbjbcks")
             dev = deviceform.save(commit=False)
             dev.company_id = Company.objects.get(id=cmp_id)
             dev.save()
@@ -1644,7 +1634,6 @@ def meetings(request,cmp_id):
     lt=Employee.objects.filter(company_name=cmp_id)
     if request.method == 'POST':
         form = Meeting_Form(request.POST)
-        print("addsa")
         if form.is_valid():
             date_time=form.cleaned_data["date_time"]
             time=form.cleaned_data["time"]

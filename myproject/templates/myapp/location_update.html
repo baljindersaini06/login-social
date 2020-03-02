@@ -80,9 +80,10 @@
         <input type="number" name="location_bussiness_hours" id="location_bussiness_hours"  value="{{ locupdate.location_bussiness_hours }}"  class="form-control"/>
     </div>
     <div class="form-group">
-        <label class="control-label">Is A Headquater</label>
+        <label class="control-label">Headquater</label>
         {% if headquater %}
-        <input type="checkbox" name="is_headquater" id="is_headquater"   value="{{ locupdate.is_headquater }}" class="form-control"  checked />
+        <input type="hidden" name="is_headquater" id="is_headquater"   value="{{ locupdate.is_headquater }}" class="form-control"  checked />
+        <p style="color: red;">Headquater already exists</p>
         {% else %}
         <input type="checkbox" name="is_headquater" id="is_headquater"   class="form-control"   />
         {% endif %}
@@ -96,10 +97,6 @@
     {% endif %}
 </div>
 
-    <!-- <div class="form-group">
-        <label class="control-label">Is Off Hours Accessible</label>
-        <input type="text" name="is_off_hours_accessible" id="is_off_hours_accessible"  value="{{ locupdate.is_off_hours_accessible }}"  class="form-control"/>
-    </div> -->
     <div class="margin-top-10">
         <input class="btn green-haze" type="submit" name="btnform2" />
         <a href="" class="btn default">

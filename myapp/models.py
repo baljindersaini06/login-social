@@ -119,6 +119,8 @@ class Employee(models.Model):
     designation = models.CharField(max_length=32)
     employee_email = models.EmailField()
     workstation = models.ForeignKey('Device', on_delete=models.CASCADE,blank=True, null=True,related_name='workstation')
+    emp_location = models.ForeignKey('Location', on_delete=models.CASCADE,blank=True, null=True) 
+   
     def __str__(self):
         return str(self.employee_name)
 
@@ -186,6 +188,8 @@ class Licence(models.Model):
     activation_date = models.DateField()
     expire_date = models.DateField()
     licence_note=models.CharField(max_length=200)
+    workstation_asset_tag = models.ForeignKey('Device', on_delete=models.CASCADE,blank=True, null=True,related_name='workstations')
+
     
     
     def __str__(self):
@@ -232,10 +236,11 @@ class Device(models.Model):
     device_name =  models.CharField(max_length=50)
     device_url_address =  models.URLField(max_length = 400,default="")
     device_note=models.CharField(max_length=200)
-    device_configuration_id=models.CharField(max_length=200)
-    device_configuration_parent_id=models.CharField(max_length=200)
-    asset_tag_number=models.CharField(max_length=200)
-
+    device_configuration_id = models.CharField(max_length=200)
+    device_configuration_parent_id = models.CharField(max_length=200)
+    asset_tag_number = models.CharField(max_length=200)
+    device_username = models.CharField(max_length=200)
+    device_password = models.CharField(max_length=10)
     def __str__(self):
         return self.device_name
 

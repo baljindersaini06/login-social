@@ -41,7 +41,7 @@
                             <i class="icon-globe theme-font hide"></i>
                             <span class="caption-subject font-blue-madison bold uppercase" align="center">Update Employee</span>
                         </div><br><br><br>
-<form action="" method="POST" id="login-form">
+<form action="" method="POST" id="login-form" name="user1">
     {% csrf_token %}
     
     <div class="form-group">
@@ -60,7 +60,16 @@
         <label class="control-label">Email</label>
         <input type="email" name="employee_email" id="employee_email"  value="{{ employee.employee_email }}"  class="form-control"/>
     </div>
-    
+    <div class="form-group">
+        <label class="control-label">Location</label>
+        <select class="form-control" id="emp_location" name="emp_location">
+            <option value=""></option>
+
+            {% for l in emp_location %}
+                <option value="{{ l.id }}">{{ l.location_name }}</option>
+            {% endfor %}
+        </select>
+     </div> 
     <div class="form-group">
         <label class="control-label">Workstation</label>
         <select class="form-control" id="workstation" name="workstation" value="{{ employee.workstation }}" >

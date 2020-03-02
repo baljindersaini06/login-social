@@ -24,7 +24,7 @@ urlpatterns=[
     path('test_group',views.test_group, name='test_group'),
     path('test_package',views.test_package, name='test_package'),
     path('test_location',views.test_location, name='test_location'),
-    path('test_location_update',views.test_location_update, name='test_location_update'),
+    # path('test_location_update',views.test_location_update, name='test_location_update'),
     path('test_website',views.test_website, name='test_website'),
     path('test_website_url',views.test_website_url, name='test_website_url'),
     path('test_licence_key',views.test_licence_key, name='test_licence_key'),
@@ -64,6 +64,8 @@ urlpatterns=[
     path('group_update/<int:id>',views.group_update,name='group_update'),
     path('group_delete/<int:id>',views.group_delete,name='group_delete'),
     path('user_update/<int:user_id>',views.user_update,name='user_update'),
+    path('user_details/<int:id>',views.user_details,name='user_details'),
+
     path('location/<int:cmp_id>/',views.location,name='location'),
     path('website/<int:cmp_id>/',views.website,name='website'),
     path('employee_update/<int:empdetail_id>/',views.employee_update,name='employee_update'),
