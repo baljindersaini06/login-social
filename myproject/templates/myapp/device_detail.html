@@ -114,9 +114,9 @@
                                 <strong>Device Url Address</strong> - {{ device_detail.device_url_address }}<br><br>
                                 <strong>Device Note</strong> - {{ device_detail.device_note }}<br><br>
                                 <strong>Device Username</strong> - {{ device_detail.device_username }}<br><br>
-                                <strong>Device Password- <input type="password" name="device_password" id="device_password" value="{{ device_detail.device_password }}"  style="width: fit-content;" class="form-control" readonly/></strong> 
-                                <input type="checkbox" onclick="myFunction()">Show Password
-
+                                <strong>Device Password- <input type="password" name="device_password" id="device_password" value="{{ device_detail.device_password }}"  style="width: fit-content;" class="form-control" readonly/><span toggle="#password-field" class="fa fa-fw fa-eye field_icon toggle-password"></span>
+                                </strong> 
+                               
                                 <br>
                             </div>
                         </div>
@@ -130,7 +130,7 @@
         <!-- END PROFILE CONTENT -->
     </div>
 </div>
-<script>
+<!-- <script>
 function myFunction() {
     var x = document.getElementById("device_password");
     if (x.type === "password") {
@@ -139,5 +139,17 @@ function myFunction() {
       x.type = "password";
     }
   }
+</script> -->
+<script>
+$("body").on('click', '.toggle-password', function() {
+  $(this).toggleClass("fa-eye fa-eye-slash");
+  var input = $("#device_password");
+  if (input.attr("type") === "password") {
+    input.attr("type", "text");
+  } else {
+    input.attr("type", "password");
+  }
+
+});
 </script>
     {% endblock %}

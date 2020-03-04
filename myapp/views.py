@@ -1748,7 +1748,7 @@ def meeting_details(request,m_id,cmp_id):
 
     meet= Meeting.objects.get(id=m_id)    
     emp=meet.attendees.all()
-    lt=Meeting.objects.filter(id=meet.id)
+    lt=Meeting.objects .filter(id=meet.id)
     return render(request,'myapp/meeting_detail.html',{'meet':meet,'compdetail':compdetail,'lt':lt,'emp':emp,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count})
 
 

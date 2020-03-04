@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'cities_light' ,
     'activity_log',
     
+    
 
 
 
@@ -72,6 +73,7 @@ AUTH_USER_MODEL = 'myapp.User'
 
 
 MIDDLEWARE = [
+    
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -85,7 +87,7 @@ MIDDLEWARE = [
     'two_factor.middleware.threadlocals.ThreadLocals',
     'axes.middleware.AxesMiddleware',
     'activity_log.middleware.ActivityLogMiddleware',
-
+    
 ]
 
 ROOT_URLCONF = 'myproject.urls'
@@ -235,26 +237,7 @@ AXES_USE_USER_AGENT = True
 AXES_COOLOFF_MESSAGE="try again logging after 10minutes"
 AXES_LOCKOUT_TEMPLATE='two_factor/core/lockout.html'
 
-# DATABASE_ROUTERS = ['activity_log.router.DatabaseAppsRouter']
-# ACTIVITYLOG_EXCLUDE_URLS = ('/admin/activity_log/activitylog', )
-# DATABASE_APPS_MAPPING = {'activity_log': 'logs'}
-# ACTIVITYLOG_AUTOCREATE_DB = False
-# ACTIVITYLOG_ANONYMOUS = True
-# ACTIVITYLOG_LAST_ACTIVITY = True
-# ACTIVITYLOG_METHODS = ('POST', 'GET')
-# ACTIVITYLOG_STATUSES = (200, )
 
 
 
-# try:
-#     from django.contrib.messages import constants as messages
-#     MESSAGE_TAGS = {
-#         messages.DEBUG: 'alert-info',
-#         messages.INFO: 'alert-info',
-#         messages.SUCCESS: 'alert-success',
-#         messages.WARNING: 'alert-warning',
-#         messages.ERROR: 'alert-danger',
-#     }
-# except Exception as e:
-#     pass
 

@@ -31,6 +31,7 @@
   padding: 5px 9px;
   border-radius:5px!important;
 }
+
 </style>
 <div>
 <h3 class="page-title">
@@ -69,7 +70,8 @@
         <th>Id</th>
         <th>device type</th>
         <th>device name</th>
-        <th>device url address</th> 
+        <th>Username</th>
+        <th>Password</th>
         <th>device location</th> 
         <th>Edit/Delete</th> 
         
@@ -81,8 +83,13 @@
           <td>{{ d.id }}</td>
           <td>{{ d.device_type_id }}</td>
           <td><a href="{% url 'device_detail' d.id %}">{{ d.device_name }}</a></td>
-          <td>{{ d.device_url_address }}</td>
+
+          <td><span class="secretInfo">{{ d.device_username }}</span> &nbsp;&nbsp;<a class ="buttons"><i class="fa fa-copy" style="font-size:16px;color:black;"></i></a></td>
+          
+          <td><input type="password" name="device_password" id="device_password" value="{{ d.device_password }}"  style="width: fit-content; border:none;background-color: none;height: 30px;"  readonly/><span toggle="#password-field" name ="dynamic" class="fa fa-fw fa-eye field_icon toggle-password"></span></td>
+          
           <td>{{ d.location_id.location_name }}</td>
+          
           <td><a href ="{% url 'device_update' d.id compdetail.id %}"><button  class="btn btn-primary btn-xs"  data-title="Edit" data-toggle="modal" data-target="#edit" type="button"><span class="glyphicon glyphicon-pencil"></span></button></a>
             &nbsp;&nbsp;<button class="btn btn-danger btn-xs" href ="{% url 'device_delete' d.id compdetail.id %}"   data-title="Delete" data-toggle="modal" data-target="#delete" type="button"><span class="glyphicon glyphicon-trash"></span></button></td>
          
@@ -131,7 +138,41 @@
           });
       });
     </script>
-    
+    <!-- <script>
+      $("body").on('click', '.toggle-password', function() {
+        $(this).toggleClass("fa-eye fa-eye-slash");
+        var input = $("#device_password");
+        if (input.attr("type") === "password") {
+          input.attr("type", "text");
+        } else {
+          input.attr("type", "password");
+        }
+      
+      });
+      </script> -->
+      <script>
+      var myButton = document.getElementsByName('dynamic');
+      var myInput = document.getElementsByName('device_password');
+      myButton.forEach(function(element, index){
+        element.onclick = function(){
+           'use strict';
+            $(this).toggleClass("fa-eye fa-eye-slash");
+            if (myInput[index].type == 'password') {
+                myInput[index].setAttribute('type', 'text');
+              
+      
+            } else {
+                 myInput[index].setAttribute('type', 'password');
+               
+            }
+        }
+      })
+</script>
+
+
+
+
+
  {% endblock %}
 
- 
+
