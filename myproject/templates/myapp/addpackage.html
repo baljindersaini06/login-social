@@ -1,7 +1,23 @@
 {% extends 'myapp/layout3.html' %}
 {% load static %}
 {% block content %}
+<style>
+    .split {
+  height: 100%;
+  width: 50%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
 
+.left {
+  left: 0;
+  background-color: #111;
+}
+
+</style>
 
 <h3 class="page-title">
 
@@ -9,6 +25,7 @@
 
     
    </h3>
+   
    <div class="page-bar">
     <ul class="page-breadcrumb">
         <li>
@@ -36,6 +53,7 @@
                             <i class="icon-globe theme-font hide"></i>
                             <span class="caption-subject font-blue-madison bold uppercase" align="center">Add Package</span>
                         </div><br><br><br>
+                       
 <form action="" method="POST" id="package" name="package">
     {% csrf_token %}
     
@@ -72,7 +90,8 @@
         <input class="btn green-haze" type="submit" name="btnform2" />
         <a href="javascript:;" class="btn default">
         Cancel </a>
-    </div>
+   
+</div>
 </form>
 </div>
 

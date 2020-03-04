@@ -1,0 +1,91 @@
+{% extends 'myapp/layout3.html' %}
+{% load static %}
+{% block content %}
+<style>
+@media (min-width: 768px) {
+    .h-md-100 { height: 100vh; }
+}
+.btn-round { border-radius: 30px; }
+.bg-indigo { background: white; }
+.text-cyan { color: #35bdff; }
+</style>
+<div class="d-md-flex h-md-100 align-items-center">
+
+    <!-- First Half -->
+    
+    <div class="col-md-6 p-0 bg-indigo h-md-100">
+        <div class="text-white d-md-flex align-items-center h-100 p-5 text-center justify-content-center">
+            <div class="logoarea pt-5 pb-5">
+                <form action="" method="POST" id="login-form" name="">
+                    {% csrf_token %}
+                    
+                    <div class="form-group">
+                         </div> 
+                    <div class="form-group">
+                        <label class="control-label">name</label>
+                        <input type="text" name="name" id="name" value="{{ packs.name }}" class="form-control" onChange="document.getElementById('name1').value=this.value"/>
+                       
+                    </div>
+                    <div class="form-group">
+                            <label class="control-label">description</label>
+                            <input type="text" name="description" id="description" value="{{ packs.description }}" class="form-control"/>
+                        </div>
+                    <div class="form-group">
+                        <label class="control-label">connectwise api</label>
+                        <input type="text" name="connectwise_api" id="connectwise_api" value="{{ packs.connectwise_api }}" class="form-control"/>
+                    </div>
+                  
+                    <div class="form-group">
+                        <label class="control-label">moneris api</label>
+                        <input type="text" name="moneris_api" id="moneris_api" value="{{ packs.moneris_api }}" class="form-control"/>
+                    </div>
+                    
+                    <div class="margin-top-10">
+                        <input class="btn green-haze" type="submit" name="btnform2" />
+                        <a href="javascript:;" class="btn default">
+                        Cancel </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Second Half -->
+    
+    <div class="col-md-6 p-0 bg-white h-md-100 loginarea">
+        <div class="d-md-flex align-items-center h-md-100 p-5 justify-content-center">
+            <form action="" method="POST" id="login-form" name="">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                     </div> 
+                <div class="form-group">
+                    <label class="control-label">name</label>
+                    <input type="text" name="name" id="name1" value="{{ packs.name }}" class="form-control"/>
+                   
+                </div>
+                <div class="form-group">
+                        <label class="control-label">description</label>
+                        <input type="text" name="description" id="description" value="{{ packs.description }}" class="form-control"/>
+                    </div>
+                <div class="form-group">
+                    <label class="control-label">connectwise api</label>
+                    <input type="text" name="connectwise_api" id="connectwise_api" value="{{ packs.connectwise_api }}" class="form-control"/>
+                </div>
+              
+                <div class="form-group">
+                    <label class="control-label">moneris api</label>
+                    <input type="text" name="moneris_api" id="moneris_api" value="{{ packs.moneris_api }}" class="form-control"/>
+                </div>
+                
+                <!-- <div class="margin-top-10">
+                    <input class="btn green-haze" type="submit" name="btnform2" />
+                    <a href="javascript:;" class="btn default">
+                    Cancel </a>
+                </div> -->
+            </form>
+        </div>
+    </div>
+        
+    </div>
+    {% endblock %}
