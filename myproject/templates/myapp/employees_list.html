@@ -58,45 +58,8 @@
       </li>
   </ul>
 </div>
-{% ifequal user.groups.all.0.name "Company HR" %}
-  <table id="test_table_employee" class="display table table-striped table-bordered" border="1" cellspacing="0" width="100%">
-    <thead>
-      <tr>
-        <th>Id</th>
-        <!-- <th>Company Name</th> -->
-        <th>Employee Name</th>
-        <th>Phone No</th>
-        <th>email</th>
-        <th>location</th>
-        <th>workstations</th>
-        <th>Joined Date</th>
-       
-        
-        
-      </tr>
-    </thead>
-    <tbody>
-      {% for e in employee %}
-      <tr>
-          <td>{{ e.id }}</td>
-          <!-- <td>{{ e.company_name.company_name }}</td> -->
-          <td ><a href="{% url 'employee_detail' e.id %}" class="secretInfo">{{ e.employee_name }}</a>&nbsp <a class="buttons"><i class="fa fa-copy" style="font-size:16px;color:black;"></a></i>
-          </td>
-          <td>{{ e.phone_number }}</td> 
-          <td>{{ e.employee_email }}</td>
-          <td>{{ e.emp_location.location_name }}</td>  
-          <td>{{ e.workstation.device_name }}</td> 
-          <td>{{ e.employee_name.date_joined }}</td>
-         
-          <!-- <td>{{ e.employee_name.is_active }}</td> 
-          <td><a href="{% url 'employee_update' e.id %}"><button class="btn btn-primary btn-xs"  data-title="Edit" data-toggle="modal" data-target="#edit" type="button"><span class="glyphicon glyphicon-pencil"></span></button></a>
-            &nbsp;&nbsp;<button class="btn btn-danger btn-xs" href ="{% url 'employee_delete' e.id  %}"  data-title="Delete"  data-toggle="modal" data-target="#delete" type="button"><span class="glyphicon glyphicon-trash"></span></button></td> -->
-      </tr>
-      {% endfor %}
-  </tbody>
-              
-  </table>
-{% else %}
+
+
 <table id="test_table_employee" class="display table table-striped table-bordered" border="1" cellspacing="0" width="100%">
     <thead>
       <tr>
@@ -107,21 +70,27 @@
         <th>email</th>
         <th>location</th>
         <th>workstations</th>
+        {% ifequal user.groups.all.0.name "Company HR" %}
+        <th>Joined Date</th>
+        {% endifequal %}
         <th>Edit/Delete</th>
         
       </tr>
     </thead>
     <tbody>
-      {% for e in employee %}
+      {% for e in empdetail %}
       <tr>
           <td>{{ e.id }}</td>
           <!-- <td>{{ e.company_name.company_name }}</td> -->
-          <td ><a href="{% url 'employee_detail' e.id %}" class="secretInfo">{{ e.employee_name }}</a>&nbsp <a class="buttons"><i class="fa fa-copy" style="font-size:16px;color:black;"></a></i>
+          <td ><a href="" class="secretInfo">{{ e.employee_name }}</a>&nbsp <a class="buttons"><i class="fa fa-copy" style="font-size:16px;color:black;"></a></i>
           </td>
           <td>{{ e.phone_number }}</td> 
           <td>{{ e.employee_email }}</td>
           <td>{{ e.emp_location.location_name }}</td>  
           <td>{{ e.workstation.device_name }}</td> 
+          {% ifequal user.groups.all.0.name "Company HR" %}
+             <th>{{ e.employee_name.date_joined }}</th>
+          {% endifequal %}
           <!-- <td>{{ e.employee_name.is_active }}</td>  -->
           <td><a href="{% url 'employee_update' e.id %}"><button class="btn btn-primary btn-xs"  data-title="Edit" data-toggle="modal" data-target="#edit" type="button"><span class="glyphicon glyphicon-pencil"></span></button></a>
             &nbsp;&nbsp;<button class="btn btn-danger btn-xs" href ="{% url 'employee_delete' e.id  %}"  data-title="Delete"  data-toggle="modal" data-target="#delete" type="button"><span class="glyphicon glyphicon-trash"></span></button></td>
@@ -130,26 +99,7 @@
   </tbody>
               
   </table>
-  
-  {% endifequal %}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ 
   <script>
     $(document).ready(function() {
       $.noConflict();

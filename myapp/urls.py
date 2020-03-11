@@ -127,7 +127,7 @@ urlpatterns=[
     path('meeting_details/<int:m_id>/<int:cmp_id>',views.meeting_details,name='meeting_details'),
 
     path('generate_meeting_pdf/<int:m_id>',views.generate_meeting_pdf,name='generate_meeting_pdf'),
-    path('employee_meetings/<int:id>',views.employee_meeting,name='employee_meetings'),
+    path('employee_meetings/<int:cmp_id>',views.employee_meeting,name='employee_meetings'),
     path('employee_meeting_details/<int:m_id>/<int:id>',views.employee_meeting_details,name='employee_meeting_details'),
 
 

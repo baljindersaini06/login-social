@@ -685,7 +685,7 @@ def company_detail(request,id):
 @login_required
 def employeeview(request,id):
     compdetail=Company.objects.get(id=id)
-
+    empdetail=Employee.objects.filter(company_name=id)
 
     loc_count=Location.objects.filter(company_id=compdetail.id).count()
     web_count=Website.objects.filter(website_company_name=compdetail.id).count()
@@ -696,12 +696,13 @@ def employeeview(request,id):
     employee_count=Employee.objects.filter(company_name=compdetail.id).count()
     meeting_count=Meeting.objects.filter(company_i=compdetail.id).count()
 
+    # query_set = Group.objects.filter(user = request.user)
 
     try:
         employee=Employee.objects.filter(company_name=id)
     except Employee.DoesNotExist:
         employee = None
-    return render(request,'myapp/employee_list.html',{'employee':employee,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count})
+    return render(request,'myapp/employee_list.html',{'employee':employee,'compdetail':compdetail,'loc_count':loc_count,'web_count':web_count,'lic_count':lic_count,'doc_count':doc_count,'packs_count':packs_count,'device_count':device_count,'employee_count':employee_count,'meeting_count':meeting_count,'empdetail':empdetail})
 
 
 @login_required
@@ -1778,20 +1779,26 @@ def generate_meeting_pdf(request,m_id):
 
 
 @login_required
-def employee_meeting(request,id):
-    empdetail=Employee.objects.get(id=id)
-    compdetail=Company.objects.get(id=empdetail.company_name.id)
+def employee_meeting(request,cmp_id):
+    b=request.user
+    compdetail=Company.objects.get(id=cmp_id)
+    empdetail=Employee.objects.get(employee_name=b.id)
     meet= Meeting.objects.filter(attendees=empdetail.id)
-    return render(request,'myapp/employee_meetings.html',{'meet':meet,'compdetail':compdetail,'empdetail':empdetail})
+    employee_count=Employee.objects.filter(company_name=compdetail.id).count()
+    return render(request,'myapp/employee_meetings.html',{'meet':meet,'compdetail':compdetail,'employee_count':employee_count})
 
 
 
 
 @login_required
 def employee_meeting_details(request,m_id,id):
-    empdetail=Employee.objects.get(id=id)
+    b=request.user
+    empdetail=Employee.objects.get(employee_name=b.id)
     compdetail=Company.objects.get(id=empdetail.company_name.id)
+    employee_count=Employee.objects.filter(company_name=compdetail.id).count()
     meet= Meeting.objects.get(id=m_id)    
     emp=meet.attendees.all()
     lt=Meeting.objects.filter(id=meet.id)
-    return render(request,'myapp/employee_meetings_details.html',{'meet':meet,'compdetail':compdetail,'empdetail':empdetail,'lt':lt,'emp':emp,})
+    return render(request,'myapp/employee_meetings_details.html',{'meet':meet,'compdetail':compdetail,'empdetail':empdetail,'lt':lt,'emp':emp,'employee_count':employee_count})
+
+

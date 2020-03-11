@@ -74,7 +74,7 @@
     <tbody>
       {% for l in meet %}
       <tr>
-          <td><a href ="{% url 'employee_meeting_details' l.id empdetail.id  %}">{{ l.title }}</a></td>
+          <td><a href ="{% url 'employee_meeting_details' l.id compdetail.id  %}">{{ l.title }}</a></td>
           <td>{{ l.date_time }}</td>
           <td>{{ l.time }}</td>
 

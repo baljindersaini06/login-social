@@ -509,13 +509,41 @@
 
 							</li>
 							<li>
-							<a href="{% url 'employee_meetings' empdetail.id %}">
+							<a href="{% url 'employee_meetings'  compdetail.id  %}">
 								<i class="icon-users"></i>
 								<span class="title">Meetings</span>
 								
 								<!-- <span class="arrow "></span> -->
 								</a>
 							</li>
+								
+								{% endif %}
+
+
+
+								
+								{% if request.user|has_group:"Company HR" %}
+
+								<li class="heading">
+								
+								<p style="color:white;">Employee Name:{{ empdetail.employee_name }}</p>
+
+							</li>
+							<li>
+								<a href="{% url 'employeeview' compdetail.id %}">
+								<i class="icon-user"></i>
+								<span class="title">Employees List</span>&nbsp;<span class="dot">{{ employee_count }}</span>
+								<!-- <span class="arrow "></span> -->
+								</a>
+							</li>
+							<li>
+								<a href="{% url 'employee_meetings' compdetail.id %}">
+									<i class="icon-users"></i>
+									<span class="title">Meetings</span>
+									
+									<!-- <span class="arrow "></span> -->
+									</a>
+								</li>
 								
 								{% endif %}
 					<!-- <ul class="sub-menu">

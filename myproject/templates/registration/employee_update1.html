@@ -62,9 +62,8 @@
     </div>
     <div class="form-group">
         <label class="control-label">Location</label>
-        <select class="form-control" id="emp_location" name="emp_location">
-            <option value=""></option>
-
+        <select class="form-control" id="emp_location" name="emp_location" value="{{ employee.emp_location }}">
+           
             {% for l in emp_location %}
                 <option value="{{ l.id }}">{{ l.location_name }}</option>
             {% endfor %}
@@ -73,7 +72,7 @@
     <div class="form-group">
         <label class="control-label">Workstation</label>
         <select class="form-control" id="workstation" name="workstation" value="{{ employee.workstation }}" >
-            <option value="" ></option>
+        
             {% for p in emp %}
             <option value="{{ p.id }}" >{{ p.device_name }}</option>
             {% endfor %}
